@@ -1,17 +1,32 @@
 [
 	{
 		"id": 1,
-		"name": "孤独摇滚",
-		"dir": "F:/Video/Bocchi_the_Rock!"
+		"name": "example",
+		"status": true,
+		"type": -1,
+		"dir": "",
+		"url": "",
+		"img": "none",
+		"day": -1
 	},
 	{
 		"id": 2,
-		"name": "电锯人",
-		"dir": "F:/Video/Chainsaw_Man"
+		"name": "example_network",
+		"status": true,
+		"type": 0,
+		"dir": "",
+		"url": "",
+		"img": "none",
+		"day": -1
 	},
 	{
 		"id": 3,
-		"name": "赛博朋克-边缘行者",
-		"dir": "F:/Video/Cyberpunk_Edgerunners"
+		"name": "example_local",
+		"status": true,
+		"type": 1,
+		"dir": "",
+		"url": "",
+		"img": "none",
+		"day": -1
 	}
 ]
