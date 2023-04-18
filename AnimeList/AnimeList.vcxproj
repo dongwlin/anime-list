@@ -138,12 +138,10 @@ Copy "$(SolutionDir)resource" "$(SolutionDir)$(Platform)\$(Configuration)\resour
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>md $(SolutionDir)$(Platform)\$(Configuration)\resource
-md $(SolutionDir)$(Platform)\$(Configuration)\www\assets
+      <Command>md $(SolutionDir)$(Platform)\$(Configuration)\www\assets
 del /q $(SolutionDir)$(Platform)\$(Configuration)\www\assets\*
 Copy "$(SolutionDir)anime-list\dist" "$(SolutionDir)$(Platform)\$(Configuration)\www"
-Copy "$(SolutionDir)anime-list\dist\assets" "$(SolutionDir)$(Platform)\$(Configuration)\www\assets"
-Copy "$(SolutionDir)resource" "$(SolutionDir)$(Platform)\$(Configuration)\resource"</Command>
+Copy "$(SolutionDir)anime-list\dist\assets" "$(SolutionDir)$(Platform)\$(Configuration)\www\assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

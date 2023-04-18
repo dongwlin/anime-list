@@ -17,14 +17,45 @@
 #pragma comment(linker, "/ENTRY:mainCRTStartup")
 #endif // !_DEBUG
 
-const int port = 9317;
+const int PORT = 9317;
+std::string ContentType = "application/json;charset=utf8";
 
 void init()
 {
 	std::filesystem::path res = "./resource";
 	if (!std::filesystem::exists(res))
 	{
+#ifdef _DEBUG
+		std::cout << "resource dir not exist" << std::endl;
+#endif // _DEBUG
+
 		std::filesystem::create_directory(res);
+
+#ifdef _DEBUG
+		std::cout << "resource dir created" << std::endl;
+#endif // _DEBUG
+
+		nlohmann::json animeObj;
+		animeObj["id"] = 1;
+		animeObj["name"] = "example";
+		animeObj["status"] = true;
+		animeObj["type"] = -1;
+		animeObj["dir"] = "";
+		animeObj["url"] = "";
+		animeObj["img"] = "none";
+		animeObj["day"] = -1;
+		nlohmann::json anime = nlohmann::json::array();
+		anime.push_back(animeObj);
+
+		std::filesystem::path animeFile = res / "anime.json";
+		std::ofstream out(animeFile);
+		out << std::setw(4) << anime << std::endl;
+		out.close();
+		
+#ifdef _DEBUG
+		std::cout << "anime.json created" << std::endl;
+#endif // _DEBUG
+
 	}
 }
 
@@ -33,6 +64,8 @@ int main()
 #ifdef _DEBUG
 	std::cout << "START" << std::endl;
 #endif // _DEBUG
+
+	init();
 
 	std::filesystem::path www = "./www";
 	if (!std::filesystem::exists(www))
@@ -63,7 +96,7 @@ int main()
 		{
 			response.set_content(
 				api_success(),
-				"text/plain;charset=utf8"
+				ContentType
 			);
 		}
 	);
@@ -80,7 +113,7 @@ int main()
 
 					response.set_content(
 						api_success(),
-						"text/plain;charset=utf8"
+						ContentType
 					);
 #ifdef _DEBUG
 					std::cout << "open folder: " << folder.generic_string() << std::endl;
@@ -93,11 +126,12 @@ int main()
 #endif // _DEBUG
 					response.set_content(
 						api_error_404(),
-						"text/plain;charset=utf8"
+						ContentType
 					);
 				}
 				
 			}
+
 		}
 	);
 
@@ -108,7 +142,7 @@ int main()
 			nlohmann::json anime = nlohmann::json::parse(fin);
 			response.set_content(
 				api_success(anime),
-				"text/plian;charset=utf8"
+				ContentType
 			);
 		}
 	);
@@ -123,7 +157,7 @@ int main()
 			divisionAnime(anime, animeListA, animeListB);
 			response.set_content(
 				api_success(animeListA),
-				"text/plian;charset=utf8"
+				ContentType
 			);
 		}
 	);
@@ -138,7 +172,7 @@ int main()
 			divisionAnime(anime, animeListA, animeListB);
 			response.set_content(
 				api_success(animeListB),
-				"text/plian;charset=utf8"
+				ContentType
 			);
 		}
 	);
@@ -155,7 +189,7 @@ int main()
 		}
 	);
 
-	utils::open("http://localhost:" + std::to_string(port));
+	utils::open("http://localhost:" + std::to_string(PORT));
 
-	server.listen("localhost", port);
+	server.listen("localhost", PORT);
 }
