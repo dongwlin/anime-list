@@ -27,14 +27,14 @@ std::string ContentType = "application/json;charset=utf8";
 
 void init()
 {
-	std::filesystem::path res = "./resource";
-	if (!std::filesystem::exists(res))
+	std::filesystem::path data = "./data";
+	if (!std::filesystem::exists(data))
 	{
 #ifdef _DEBUG
 		std::cout << "resource dir not exist" << std::endl;
 #endif // _DEBUG
 
-		std::filesystem::create_directory(res);
+		std::filesystem::create_directory(data);
 
 #ifdef _DEBUG
 		std::cout << "resource dir created" << std::endl;
@@ -52,7 +52,7 @@ void init()
 		nlohmann::json anime = nlohmann::json::array();
 		anime.push_back(animeObj);
 
-		std::filesystem::path animeFile = res / "anime.json";
+		std::filesystem::path animeFile = data / "anime.json";
 		std::ofstream out(animeFile);
 		out << std::setw(4) << anime << std::endl;
 		out.close();
@@ -160,7 +160,7 @@ int main()
 	server.Get("/animeList",
 		[](const httplib::Request& request, httplib::Response& response)
 		{
-			std::fstream fin("./resource/anime.json");
+			std::fstream fin("./data/anime.json");
 			nlohmann::json anime = nlohmann::json::parse(fin);
 			response.set_content(
 				api_success(anime),
@@ -173,7 +173,7 @@ int main()
 	server.Get("/animeListA",
 		[](const httplib::Request& request, httplib::Response& response)
 		{
-			std::fstream fin("./resource/anime.json");
+			std::fstream fin("./data/anime.json");
 			nlohmann::json anime = nlohmann::json::parse(fin);
 			nlohmann::json animeListA = nlohmann::json::array();
 			nlohmann::json animeListB = nlohmann::json::array();
@@ -189,7 +189,7 @@ int main()
 	server.Get("/animeListB",
 		[](const httplib::Request& request, httplib::Response& response)
 		{
-			std::fstream fin("./resource/anime.json");
+			std::fstream fin("./data/anime.json");
 			nlohmann::json anime = nlohmann::json::parse(fin);
 			nlohmann::json animeListA = nlohmann::json::array();
 			nlohmann::json animeListB = nlohmann::json::array();
