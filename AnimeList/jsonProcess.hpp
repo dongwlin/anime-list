@@ -1,20 +1,25 @@
 #pragma once
 
-#include <fstream>
 #include <nlohmann/json.hpp>
-#include <string>
 
 void divisionAnime(nlohmann::json animeList, nlohmann::json& animeListA, nlohmann::json& animeListB)
 {
+	bool next = true;
 	for (auto [key, value] : animeList.items())
 	{
-		if (atoi(key.c_str()) % 2)
+		if (!value["status"])
 		{
-			animeListB.push_back(value);
+			continue;
+		}
+		if (next)
+		{
+			next = !next;
+			animeListA.push_back(value);
 		}
 		else
 		{
-			animeListA.push_back(value);
+			next = !next;
+			animeListB.push_back(value);
 		}
 	}
 }
