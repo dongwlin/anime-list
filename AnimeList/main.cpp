@@ -166,6 +166,7 @@ int main()
 				api_success(anime),
 				ContentType
 			);
+			fin.close();
 		}
 	);
 
@@ -181,6 +182,7 @@ int main()
 				api_success(animeListA),
 				ContentType
 			);
+			fin.close();
 		}
 	);
 
@@ -196,6 +198,7 @@ int main()
 				api_success(animeListB),
 				ContentType
 			);
+			fin.close();
 		}
 	);
 
