@@ -202,6 +202,13 @@ int main()
 		}
 	);
 
+	server.Post("add",
+		[](const httplib::Request& request, httplib::Response& response)
+		{
+			
+		}
+	);
+
 	server.Get("/stop",
 		[&](const httplib::Request& request, httplib::Response& response)
 		{
