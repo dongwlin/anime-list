@@ -2,28 +2,38 @@
   <transition name="fade" mode="out-in" appear>
     <div class="animeListContainerBase">
       <div class="animeListContainer">
-        <el-row v-for="item in animeListA">
-          <el-col :span="6"></el-col>
-          <el-col :span="16" v-if="item.status === true && item.type === 0">
-            <el-card shadow="hover" @click="openUrl(item.url)">{{ item.name }}</el-card>
-          </el-col>
-          <el-col :span="16" v-else-if="item.status === true && item.type === 1">
-            <el-card shadow="hover" @click="openDir(item.dir)">{{ item.name }}</el-card>
-          </el-col>
-          <el-col :span="2"></el-col>
-        </el-row>
+        <template v-for="item in animeListA" :key="item.id">
+          <el-row v-if="item.status">
+            <el-col :span="6"></el-col>
+            <el-col :span="16" v-if="item.type === 0">
+              <el-card shadow="hover" @click="openUrl(item.url)">{{ item.name }}</el-card>
+            </el-col>
+            <el-col :span="16" v-else-if="item.type === 1">
+              <el-card shadow="hover" @click="openDir(item.dir)">{{ item.name }}</el-card>
+            </el-col>
+            <el-col :span="16" v-else>
+              <el-card shadow="hover">{{ item.name }}</el-card>
+            </el-col>
+            <el-col :span="2"></el-col>
+          </el-row>
+        </template>
       </div>
       <div class="animeListContainer">
-        <el-row v-for="item in animeListB">
-          <el-col :span="2"></el-col>
-          <el-col :span="16" v-if="item.status === true && item.type === 0">
-            <el-card shadow="hover" @click="openUrl(item.url)">{{ item.name }}</el-card>
-          </el-col>
-          <el-col :span="16" v-else-if="item.status === true && item.type === 1">
-            <el-card shadow="hover" @click="openDir(item.dir)">{{ item.name }}</el-card>
-          </el-col>
-          <el-col :span="6"></el-col>
-        </el-row>
+        <template v-for="item in animeListB" :key="item.id">
+          <el-row v-if="item.status">
+            <el-col :span="2"></el-col>
+            <el-col :span="16" v-if="item.type === 0">
+              <el-card shadow="hover" @click="openUrl(item.url)">{{ item.name }}</el-card>
+            </el-col>
+            <el-col :span="16" v-else-if="item.type === 1">
+              <el-card shadow="hover" @click="openDir(item.dir)">{{ item.name }}</el-card>
+            </el-col>
+            <el-col :span="16" v-else>
+              <el-card shadow="hover">{{ item.name }}</el-card>
+            </el-col>
+            <el-col :span="6"></el-col>
+          </el-row>
+        </template>
       </div>
     </div>
   </transition>
