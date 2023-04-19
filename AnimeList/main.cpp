@@ -5,8 +5,9 @@
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <httplib/httplib.h>
+#include <Windows.h>
 
-#include "httplib.h"
 #include "utils.hpp"
 #include "apiResult.hpp"
 #include "jsonProcess.hpp"
@@ -17,7 +18,11 @@
 #pragma comment(linker, "/ENTRY:mainCRTStartup")
 #endif // !_DEBUG
 
+#ifdef _DEBUG
+const int PORT = 9311;
+#else
 const int PORT = 9317;
+#endif // _DEBUG
 std::string ContentType = "application/json;charset=utf8";
 
 void init()
@@ -64,6 +69,25 @@ int main()
 #ifdef _DEBUG
 	std::cout << "START" << std::endl;
 #endif // _DEBUG
+
+
+#ifdef _DEBUG
+	HANDLE hMutex = CreateMutex(nullptr, TRUE, L"AnimeListDebug");
+#else
+	HANDLE hMutex = CreateMutex(nullptr, TRUE, L"AnimeListRelease");
+#endif // _DEBUG
+	
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	{
+#ifdef _DEBUG
+		std::cout << "AnimeList is already running" << std::endl;
+#endif // _DEBUG
+
+		utils::open("http://localhost:" + std::to_string(PORT));
+
+		return 0;
+	}
+
 
 	init();
 
@@ -190,4 +214,7 @@ int main()
 	utils::open("http://localhost:" + std::to_string(PORT));
 
 	server.listen("localhost", PORT);
+
+	ReleaseMutex(hMutex);
+	CloseHandle(hMutex);
 }
