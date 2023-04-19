@@ -51,7 +51,7 @@ const openUrl = (url) => {
   open(url, '_blank');
 }
 
-const openDir = async (folderName) => {
+const openDir = (folderName) => {
   request.get(
       '/open',
       {
@@ -83,7 +83,7 @@ const openDir = async (folderName) => {
   });
 }
 
-const getAnimeListA = async () => {
+const getAnimeListA = () => {
   request.get(
       '/animeListA',
       {
@@ -98,7 +98,7 @@ const getAnimeListA = async () => {
   });
 }
 
-const getAnimeListB = async () => {
+const getAnimeListB = () => {
   request.get(
       '/animeListB',
       {
