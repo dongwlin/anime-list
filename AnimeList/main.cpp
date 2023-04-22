@@ -8,6 +8,7 @@
 #include <httplib/httplib.h>
 #include <Windows.h>
 #include <chrono>
+#include <cstdlib>
 
 #include "utils.hpp"
 #include "apiResult.hpp"
@@ -223,17 +224,17 @@ int main()
 			{
 				animeObj["name"] = "example";
 			}
-			if (request.has_file("status"))
+			if (request.has_file("status") && request.get_file_value("status").content == "false")
 			{
-				animeObj["status"] = request.get_file_value("status").content;
+				animeObj["status"] = utils::to_bool(request.get_file_value("status").content);
 			}
 			else
 			{
 				animeObj["status"] = true;
 			}
-			if (request.has_file("type"))
+			if (request.has_file("type") && request.get_file_value("type").content == "0" || request.get_file_value("type").content == "1")
 			{
-				animeObj["type"] = request.get_file_value("type").content;
+				animeObj["type"] = atoi(request.get_file_value("type").content.c_str());
 			}
 			else
 			{
