@@ -126,4 +126,27 @@ namespace utils
         }
         return ss.str();
     }
+
+    bool to_bool(std::string str)
+    {
+        if (str == "true")
+        {
+            return true;
+        }
+        else if (str == "false")
+        {
+            return false;
+        }
+
+        if (str == "1")
+        {
+            return true;
+        }
+        else if (str == "0")
+        {
+            return false;
+        }
+
+        return false;
+    }
 }
