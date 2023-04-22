@@ -7,6 +7,7 @@
 #include <nlohmann/json.hpp>
 #include <httplib/httplib.h>
 #include <Windows.h>
+#include <chrono>
 
 #include "utils.hpp"
 #include "apiResult.hpp"
@@ -202,10 +203,90 @@ int main()
 		}
 	);
 
-	server.Post("add",
+	server.Post("/add",
 		[](const httplib::Request& request, httplib::Response& response)
 		{
-			
+			std::ifstream fin("./data/anime.json");
+			nlohmann::json animeList = nlohmann::json::parse(fin);
+			fin.close();
+
+			nlohmann::json animeObj;
+
+			auto ms = std::chrono::steady_clock::now().time_since_epoch();
+
+			animeObj["id"] = std::to_string(ms.count());
+			if (request.has_file("name"))
+			{
+				animeObj["name"] = request.get_file_value("name").content;
+			}
+			else
+			{
+				animeObj["name"] = "example";
+			}
+			if (request.has_file("status"))
+			{
+				animeObj["status"] = request.get_file_value("status").content;
+			}
+			else
+			{
+				animeObj["status"] = true;
+			}
+			if (request.has_file("type"))
+			{
+				animeObj["type"] = request.get_file_value("type").content;
+			}
+			else
+			{
+				animeObj["type"] = -1;
+			}
+			if (request.has_file("dir"))
+			{
+				animeObj["dir"] = request.get_file_value("dir").content;
+			}
+			else
+			{
+				animeObj["dir"] = "";
+			}
+			if (request.has_file("url"))
+			{
+				animeObj["url"] = request.get_file_value("url").content;
+			}
+			else
+			{
+				animeObj["url"] = "";
+			}
+			if (request.has_file("img"))
+			{
+				animeObj["img"] = request.get_file_value("img").content;
+			}
+			else
+			{
+				animeObj["img"] = "none";
+			}
+			if (request.has_file("day"))
+			{
+				animeObj["day"] = request.get_file_value("day").content;
+			}
+			else
+			{
+				animeObj["day"] = -1;
+
+			}
+
+			animeList.push_back(animeObj);
+
+			std::ofstream fout("./data/anime.json");
+			fout << std::setw(4) << animeList << std::endl;
+			fout.close();
+
+#ifdef _DEBUG
+			std::cout << "add success" << std::endl;
+#endif // _DEBUG
+
+			response.set_content(
+				api_success(),
+				ContentType
+			);
 		}
 	);
 
