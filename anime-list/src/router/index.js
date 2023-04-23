@@ -1,15 +1,31 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 import AnimeList from "@/components/AnimeList.vue"
 import Setting from "@/components/Setting.vue"
+import SettingServer from '@/components/SettingServer.vue'
+import SettingEdit from "@/components/SettingEdit.vue"
 
 const routes = [
     {
         path: '/',
+        name: 'home',
         component: AnimeList
     },
     {
         path: '/setting',
-        component: Setting
+        name: 'setting',
+        component: Setting,
+        children: [
+            {
+                path: '/setting/server',
+                name: 'server',
+                component: SettingServer
+            },
+            {
+                path: '/setting/edit',
+                name: 'edit',
+                component: SettingEdit
+            }
+        ]
     }
 
 ];

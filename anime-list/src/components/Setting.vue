@@ -1,68 +1,41 @@
 <template>
   <transition name="fade" mode="out-in" appear>
-    <div>
-      <el-row>
-        <el-col :span="4"></el-col>
-        <el-col :span="16">
-          <el-card>
-            <div class="setting-item">
-              <span>Close Server</span>
-              <el-button
-                  :type="'danger'"
-                  @click="stopServer"
-              >Stop</el-button>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :span="4"></el-col>
-      </el-row>
-    </div>
+    <el-container>
+      <el-aside>
+        <el-menu>
+          <el-menu-item index="1" @click="ToSettingServer">
+            <span>Server</span>
+          </el-menu-item>
+          <el-menu-item index="2" @click="ToSettingEdit">
+            <span>Edit</span>
+          </el-menu-item>
+          <el-menu-item index="3">
+            <span>About</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </transition>
 </template>
 
 <script setup>
-import request from "@/utils/axiosInstance.js";
-import {ElNotification} from "element-plus";
+import { useRouter } from "vue-router"
 
-const stopServer = () => {
-  request.get(
-      '/stop',
-      {
-        params: {
+const router = useRouter();
 
-        }
-      }
-  ).then(() => {
-    ElNotification({
-      title: 'Success',
-      message: 'Server is Close.',
-      type: 'success',
-      position: 'bottom-right'
-    });
-  }).catch(error => {
-    console.log(error);
-  })
+const ToSettingServer = () => {
+  router.push('/setting/server');
+}
+
+const ToSettingEdit = () => {
+  router.push('/setting/edit');
 }
 </script>
 
 <style scoped>
-.el-row:first-child {
-  margin-top: 20px;
-}
-
-.el-row {
-  margin-bottom: 20px;
-}
-
-.el-row:last-child {
-  margin-bottom: 0;
-}
-
-.setting-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .fade-enter-active,
 .fade-leave-active {

@@ -33,7 +33,8 @@ import { ref } from "vue";
 const router = useRouter();
 
 let isSetting = ref(false);
-if (location.hash === '#/setting')
+let location_hash = location.hash;
+if (location_hash.length >= 9 && location_hash.substring(0, 9) === '#/setting')
 {
   isSetting.value = true;
 }
