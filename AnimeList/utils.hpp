@@ -6,6 +6,7 @@
 #include <utility>
 #include <sstream>
 #include <iomanip>
+#include <chrono>
 
 namespace utils
 {
@@ -148,5 +149,11 @@ namespace utils
         }
 
         return false;
+    }
+
+    std::string getTimestamp()
+    {
+        auto ms = std::chrono::steady_clock::now().time_since_epoch();
+        return std::to_string(ms.count());
     }
 }
