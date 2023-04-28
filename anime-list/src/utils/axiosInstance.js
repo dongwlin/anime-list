@@ -8,7 +8,10 @@ const request = axios.create({
 // request interceptor
 request.interceptors.request.use(
     config => {
-        config.headers['Content-Type'] = 'application/json;charset=utf-8';
+        if (!config.headers.has("Content-Type"))
+        {
+            config.headers['Content-Type'] = 'application/json;charset=utf-8';
+        }
         return config;
     },
     error => {
