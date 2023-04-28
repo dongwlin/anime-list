@@ -43,7 +43,7 @@ void init()
 #endif // _DEBUG
 
 		nlohmann::json animeObj;
-		animeObj["id"] = 1;
+		animeObj["id"] = utils::getTimestamp();
 		animeObj["name"] = "example";
 		animeObj["status"] = true;
 		animeObj["type"] = -1;
