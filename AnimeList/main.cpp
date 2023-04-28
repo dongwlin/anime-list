@@ -213,9 +213,7 @@ int main()
 
 			nlohmann::json animeObj;
 
-			auto ms = std::chrono::steady_clock::now().time_since_epoch();
-
-			animeObj["id"] = std::to_string(ms.count());
+			animeObj["id"] = utils::getTimestamp();
 			if (request.has_file("name"))
 			{
 				animeObj["name"] = request.get_file_value("name").content;
