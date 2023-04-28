@@ -52,6 +52,7 @@ const ToHome = () => {
 
 <style scoped>
 .title_bar {
+  background: #fcfcff;
   height: 42px;
   font-size: 22px;
   display: flex;
@@ -63,6 +64,8 @@ const ToHome = () => {
 .title {
   font-size: 36px;
   font-style: italic;
+  font-weight: bold;
+  color: #3f3f3f;
 }
 
 .btn {
