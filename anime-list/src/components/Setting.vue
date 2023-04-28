@@ -4,13 +4,13 @@
       <el-aside>
         <el-menu>
           <el-menu-item index="1" @click="ToSettingServer">
-            <span>Server</span>
+            <span class="menuTitle">Server</span>
           </el-menu-item>
           <el-menu-item index="2" @click="ToSettingEdit">
-            <span>Edit</span>
+            <span class="menuTitle">Edit</span>
           </el-menu-item>
           <el-menu-item index="3">
-            <span>About</span>
+            <span class="menuTitle">About</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -50,5 +50,9 @@ const ToSettingEdit = () => {
 .fade-leave-to {
   opacity: 0;
   transform: translateX(-30px);
+}
+
+.menuTitle {
+  padding-left: 20px;
 }
 </style>
