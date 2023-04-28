@@ -1,7 +1,7 @@
 <template>
   <el-row>
-    <el-col :span="4"></el-col>
-    <el-col :span="16">
+    <el-col :span="3"></el-col>
+    <el-col :span="18">
       <el-card>
         <div class="setting-item">
           <span>Close Server</span>
@@ -12,7 +12,7 @@
         </div>
       </el-card>
     </el-col>
-    <el-col :span="4"></el-col>
+    <el-col :span="3"></el-col>
   </el-row>
 </template>
 
