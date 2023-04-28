@@ -14,6 +14,7 @@ const routes = [
         path: '/setting',
         name: 'setting',
         component: Setting,
+        redirect: '/setting/server',
         children: [
             {
                 path: '/setting/server',
