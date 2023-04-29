@@ -2,14 +2,17 @@
   <transition name="fade" mode="out-in" appear>
     <el-container>
       <el-aside>
-        <el-menu>
-          <el-menu-item index="1" @click="ToSettingServer">
+        <el-menu
+          :router="true"
+          :default-active="menuDefaultActive"
+        >
+          <el-menu-item index="/setting/server">
             <span class="menuTitle">Server</span>
           </el-menu-item>
-          <el-menu-item index="2" @click="ToSettingEdit">
+          <el-menu-item index="/setting/edit">
             <span class="menuTitle">Edit</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="/setting/about">
             <span class="menuTitle">About</span>
           </el-menu-item>
         </el-menu>
@@ -25,14 +28,7 @@
 import { useRouter } from "vue-router"
 
 const router = useRouter();
-
-const ToSettingServer = () => {
-  router.push('/setting/server');
-}
-
-const ToSettingEdit = () => {
-  router.push('/setting/edit');
-}
+const menuDefaultActive = location.hash.substring(1, location.hash.length);
 </script>
 
 <style scoped>
