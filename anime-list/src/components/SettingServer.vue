@@ -1,19 +1,21 @@
 <template>
-  <el-row>
-    <el-col :span="3"></el-col>
-    <el-col :span="18">
-      <el-card>
-        <div class="setting-item">
-          <span>Close Server</span>
-          <el-button
-              :type="'danger'"
-              @click="stopServer"
-          >Stop</el-button>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="3"></el-col>
-  </el-row>
+  <transition name="fade" mode="out-in" appear>
+    <el-row>
+      <el-col :span="3"></el-col>
+      <el-col :span="18">
+        <el-card>
+          <div class="setting-item">
+            <span>Close Server</span>
+            <el-button
+                :type="'danger'"
+                @click="stopServer"
+            >Stop</el-button>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="3"></el-col>
+    </el-row>
+  </transition>
 </template>
 
 <script setup>
@@ -42,6 +44,21 @@ const stopServer = () => {
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 200ms ease-out;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
 .el-row:first-child {
   margin-top: 20px;
 }
