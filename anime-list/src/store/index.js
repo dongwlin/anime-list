@@ -13,7 +13,7 @@ export const useAnimeOptions = defineStore('main', {
                     value: false
                 }
             ],
-            optionsType: [
+            type: [
                 {
                     label: 'none',
                     value: -1
@@ -27,7 +27,7 @@ export const useAnimeOptions = defineStore('main', {
                     value: 1
                 }
             ],
-            optionsDay: [
+            day: [
                 {
                     label: 'none',
                     value: -1
