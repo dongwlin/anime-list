@@ -87,7 +87,7 @@
 <script setup>
 import {reactive, ref} from "vue";
 import request from "@/utils/axiosInstance.js";
-import { useAnimeOptions } from '@/store/index.js';
+import {useAnimeList, useAnimeOptions} from '@/store/index.js';
 import SettingEditList from '@/components/SettingEditList.vue';
 
 const dialogAdd = ref(false);
@@ -102,6 +102,7 @@ const formAdd = reactive({
 });
 
 const options = useAnimeOptions();
+const animeList = useAnimeList();
 
 const clearAdd = () => {
   formAdd.name = '';
@@ -122,7 +123,7 @@ const replaceBackslash = (obj) => {
   obj.dir = obj.dir.replaceAll('\\', '/');
 }
 
-const addAnime = () => {
+const addAnime = async () => {
   let formData = new FormData();
   if (formAdd.name.length !== 0)
   {
@@ -138,7 +139,7 @@ const addAnime = () => {
   }
   formData.append('day', formAdd.day);
 
-  request.post(
+  await request.post(
       '/add',
       formData,
       {
@@ -147,7 +148,7 @@ const addAnime = () => {
         }
       }
   ).then(response => {
-    console.log(response);
+    animeList.getAnimeList();
   }).catch(error => {
     console.log(error);
   });

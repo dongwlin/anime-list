@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
+import request from "@/utils/axiosInstance.js";
 
-export const useAnimeOptions = defineStore('main', {
+export const useAnimeOptions = defineStore('options', {
     state: () => {
         return {
             status: [
@@ -65,5 +66,30 @@ export const useAnimeOptions = defineStore('main', {
     },
     actions: {
 
+    }
+})
+
+export const useAnimeList = defineStore('list', {
+    state: () => {
+        return {
+            data: []
+        }
+    },
+    actions: {
+        async getAnimeList() {
+            let tmp = [];
+            await request.get(
+                '/animeList',
+                {
+                    params: {
+
+                    }
+            }).then(function (response) {
+                tmp.push(...response.data);
+            }).catch(error => {
+                console.log(error);
+            });
+            this.data = tmp;
+        }
     }
 })

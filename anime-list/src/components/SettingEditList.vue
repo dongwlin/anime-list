@@ -1,7 +1,7 @@
 <template>
   <div class="listBox">
     <el-card
-      v-for="item in animeList"
+      v-for="item in animeList.data"
       :key="item.id"
       class="listItem"
     >
@@ -55,34 +55,10 @@
 </template>
 
 <script setup>
-import {onMounted, reactive, ref} from "vue";
-import {useAnimeOptions} from "@/store/index.js";
-import request from "@/utils/axiosInstance.js";
-
-const animeList = reactive([]);
-const loading = ref(true);
+import {useAnimeOptions, useAnimeList} from "@/store/index.js";
 
 const options = useAnimeOptions();
-
-const getAnimeList = () => {
-  request.get(
-      '/animeList',
-      {
-        params: {
-
-        }
-      }
-  ).then(response => {
-    animeList.push(...response.data);
-  }).catch(error => {
-    console.log(error);
-  });
-  loading.value = false;
-}
-
-onMounted(() => {
-  getAnimeList();
-})
+const animeList = useAnimeList();
 </script>
 
 <style scoped>

@@ -25,9 +25,10 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router"
+import {useAnimeList} from "@/store/index.js";
 
-const router = useRouter();
+const animeList = useAnimeList();
+animeList.getAnimeList();
 const menuDefaultActive = location.hash.substring(1, location.hash.length);
 </script>
 
