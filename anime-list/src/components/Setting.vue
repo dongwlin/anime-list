@@ -17,7 +17,7 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-main>
+      <el-main class="main">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -50,5 +50,9 @@ const menuDefaultActive = location.hash.substring(1, location.hash.length);
 
 .menuTitle {
   padding-left: 20px;
+}
+
+.main::-webkit-scrollbar {
+  display: none;
 }
 </style>
