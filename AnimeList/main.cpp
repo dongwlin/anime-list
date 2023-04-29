@@ -21,6 +21,15 @@
 #endif // !_DEBUG
 
 #ifdef _DEBUG
+const int VERSIONCODE = 0;
+const std::string VERSIONNAME = "DEBUG";
+#else
+const int VERSIONCODE = 5;
+const std::string VERSIONNAME = "0.05";
+#endif // _DEBUG
+
+
+#ifdef _DEBUG
 const int PORT = 9311;
 #else
 const int PORT = 9317;
@@ -133,7 +142,7 @@ int main()
 			if (request.has_param("folder"))
 			{
 				std::filesystem::path folder = utils::UTF8ToGBK(request.get_param_value("folder"));
-				if (std::filesystem::exists(folder))
+				if (std::filesystem::exists(folder) && !folder.empty())
 				{
 					utils::open(folder.generic_string());
 
@@ -212,6 +221,8 @@ int main()
 			fin.close();
 
 			nlohmann::json animeObj;
+
+
 
 			animeObj["id"] = utils::getTimestamp();
 			if (request.has_file("name"))
@@ -292,6 +303,19 @@ int main()
 
 			response.set_content(
 				api_success(),
+				ContentType
+			);
+		}
+	);
+
+	server.Get("/about",
+		[](const httplib::Request& request, httplib::Response& response)
+		{
+			nlohmann::json result;
+			result["versionCode"] = VERSIONCODE;
+			result["versionName"] = VERSIONNAME;
+			response.set_content(
+				api_success(result),
 				ContentType
 			);
 		}
