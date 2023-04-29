@@ -1,8 +1,9 @@
-import { createRouter, createWebHashHistory } from "vue-router"
-import AnimeList from "@/components/AnimeList.vue"
-import Setting from "@/components/Setting.vue"
-import SettingServer from '@/components/SettingServer.vue'
-import SettingEdit from "@/components/SettingEdit.vue"
+import { createRouter, createWebHashHistory } from "vue-router";
+import AnimeList from "@/components/AnimeList.vue";
+import Setting from "@/components/Setting.vue";
+import SettingServer from '@/components/SettingServer.vue';
+import SettingEdit from "@/components/SettingEdit.vue";
+import SettingAbout from '@/components/SettingAbout.vue';
 
 const routes = [
     {
@@ -25,6 +26,11 @@ const routes = [
                 path: '/setting/edit',
                 name: 'edit',
                 component: SettingEdit
+            },
+            {
+                path: '/setting/about',
+                name: 'about',
+                component: SettingAbout
             }
         ]
     }
