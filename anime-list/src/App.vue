@@ -5,11 +5,6 @@ import TitleBar from "@/components/TitleBar.vue"
 <template>
   <TitleBar></TitleBar>
   <router-view v-slot="{Component, route}">
-<!--    <component -->
-<!--        :is="Component" -->
-<!--        :key="route.path"-->
-<!--    >-->
-<!--    </component>-->
     <component
         :is="Component"
     >
