@@ -9,6 +9,7 @@
 #include <Windows.h>
 #include <chrono>
 #include <cstdlib>
+#include <sstream>
 
 #include "utils.hpp"
 #include "apiResult.hpp"
@@ -24,8 +25,8 @@
 const int VERSIONCODE = 0;
 const std::string VERSIONNAME = "DEBUG";
 #else
-const int VERSIONCODE = 6;
-const std::string VERSIONNAME = "v0.06";
+const int VERSIONCODE = 7;
+const std::string VERSIONNAME = "v0.07";
 #endif // _DEBUG
 
 
@@ -42,13 +43,13 @@ void init()
 	if (!std::filesystem::exists(data))
 	{
 #ifdef _DEBUG
-		std::cout << "resource dir not exist" << std::endl;
+		std::cout << "data dir not exist" << std::endl;
 #endif // _DEBUG
 
 		std::filesystem::create_directory(data);
 
 #ifdef _DEBUG
-		std::cout << "resource dir created" << std::endl;
+		std::cout << "data dir created" << std::endl;
 #endif // _DEBUG
 
 		nlohmann::json animeObj;
@@ -58,7 +59,7 @@ void init()
 		animeObj["type"] = -1;
 		animeObj["dir"] = "";
 		animeObj["url"] = "";
-		animeObj["img"] = "none";
+		animeObj["img"] = "";
 		animeObj["day"] = -1;
 		nlohmann::json anime = nlohmann::json::array();
 		anime.push_back(animeObj);
@@ -103,6 +104,7 @@ int main()
 	init();
 
 	std::filesystem::path www = "./www";
+	std::filesystem::path image = "./data/image";
 	if (!std::filesystem::exists(www))
 	{
 #ifdef _DEBUG
@@ -121,10 +123,29 @@ int main()
 		std::cout << "www dir exists" << std::endl;
 #endif // _DEBUG
 	}
+	if (!std::filesystem::exists(image))
+	{
+#ifdef _DEBUG
+		std::cout << "image dir not exists" << std::endl;
+#endif // _DEBUG
+
+		std::filesystem::create_directory(image);
+
+#ifdef _DEBUG
+		std::cout << "image dir created" << std::endl;
+#endif // _DEBUG
+	}
+	else
+	{
+#ifdef _DEBUG
+		std::cout << "image dir exists" << std::endl;
+#endif // _DEBUG
+	}
 
 	httplib::Server server;
 
 	server.set_mount_point("/", www.generic_string());
+	server.set_mount_point("/image", image.generic_string());
 
 	server.Get("/hi",
 		[](const httplib::Request& request, httplib::Response& response)
@@ -168,7 +189,7 @@ int main()
 		}
 	);
 
-	server.Get("/animeList",
+	server.Get("/list",
 		[](const httplib::Request& request, httplib::Response& response)
 		{
 			std::fstream fin("./data/anime.json");
@@ -181,39 +202,50 @@ int main()
 		}
 	);
 
-	server.Get("/animeListA",
-		[](const httplib::Request& request, httplib::Response& response)
+	server.Post("/uploadImage",
+		[&](const httplib::Request& request, httplib::Response& response)
 		{
-			std::fstream fin("./data/anime.json");
-			nlohmann::json anime = nlohmann::json::parse(fin);
-			nlohmann::json animeListA = nlohmann::json::array();
-			nlohmann::json animeListB = nlohmann::json::array();
-			divisionAnime(anime, animeListA, animeListB);
-			response.set_content(
-				api_success(animeListA),
-				ContentType
-			);
-			fin.close();
+			if (!request.is_multipart_form_data() || !request.has_file("image"))
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+
+			const auto& img = request.get_file_value("image");
+			std::string imgExtension = "";
+			if (img.content_type == "image/jpeg")
+			{
+				imgExtension = "jpg";
+			}
+			else if (img.content_type != "image/png")
+			{
+				imgExtension = "png";
+			}
+			else
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+
+			std::string imgName = "";
+			std::stringstream ss;
+			ss << std::hash<std::string>()(img.content);
+			ss >> imgName;
+			ss.clear();
+			imgName += "." + imgExtension;
+			std::filesystem::path imgFile = image / imgName;
+			std::ofstream fout(imgFile, std::ios::binary);
+			fout << img.content;
+			fout.close();
+
+			nlohmann::json result;
+			result["img"] = "/image/" + imgName;
+
+			response.set_content(api_success(result), ContentType);
 		}
 	);
 
-	server.Get("/animeListB",
-		[](const httplib::Request& request, httplib::Response& response)
-		{
-			std::fstream fin("./data/anime.json");
-			nlohmann::json anime = nlohmann::json::parse(fin);
-			nlohmann::json animeListA = nlohmann::json::array();
-			nlohmann::json animeListB = nlohmann::json::array();
-			divisionAnime(anime, animeListA, animeListB);
-			response.set_content(
-				api_success(animeListB),
-				ContentType
-			);
-			fin.close();
-		}
-	);
-
-	server.Post("/add",
+	server.Post("/create",
 		[](const httplib::Request& request, httplib::Response& response)
 		{
 			std::ifstream fin("./data/anime.json");
@@ -271,7 +303,7 @@ int main()
 			}
 			else
 			{
-				animeObj["img"] = "none";
+				animeObj["img"] = "";
 			}
 			if (request.has_file("day") && 
 				request.get_file_value("day").content == "0" ||
@@ -305,6 +337,222 @@ int main()
 				api_success(),
 				ContentType
 			);
+		}
+	);
+
+	server.Post("/update",
+		[](const httplib::Request& request, httplib::Response& response)
+		{
+			if (!request.is_multipart_form_data() || !request.has_file("id"))
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+			std::string id = request.get_file_value("id").content;
+
+			std::ifstream fin("./data/anime.json");
+			nlohmann::json list = nlohmann::json::parse(fin);
+			fin.close();
+
+			bool isActive = false;
+			for (auto& [key, value] : list.items())
+			{
+				if (value.at("id") == id)
+				{
+					if (request.has_file("name"))
+					{
+						value.at("name") = request.get_file_value("name").content;
+					}
+					if (request.has_file("type"))
+					{
+						value.at("type") = atoi(request.get_file_value("type").content.c_str());
+					}
+					if (request.has_file("dir"))
+					{
+						value.at("dir") = request.get_file_value("dir").content;
+					}
+					if (request.has_file("url"))
+					{
+						value.at("url") = request.get_file_value("url").content;
+					}
+					if (request.has_file("img"))
+					{
+						value.at("img") = request.get_file_value("img").content;
+					}
+					if (request.has_file("day"))
+					{
+						value.at("day") = atoi(request.get_file_value("day").content.c_str());
+					}
+					isActive = true;
+					response.set_content(api_success(), ContentType);
+					break;
+				}
+			}
+
+			if (!isActive)
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+
+			std::ofstream fout("./data/anime.json");
+			fout << std::setw(4) << list << std::endl;
+			fout.close();
+		}
+	);
+
+	server.Get("/read",
+		[](const httplib::Request& request, httplib::Response& response)
+		{
+			if (!request.has_param("id"))
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+			std::string id = request.get_param_value("id");
+
+			std::ifstream fin("./data/anime.json");
+			nlohmann::json list = nlohmann::json::parse(fin);
+			fin.close();
+
+			bool isActive = false;
+			for (auto& [key, value] : list.items())
+			{
+				if (value.at("id") == id)
+				{
+					isActive = true;
+					response.set_content(api_success(value), ContentType);
+					break;
+				}
+			}
+
+			if (!isActive)
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+
+			std::ofstream fout("./data/anime.json");
+			fout << std::setw(4) << list << std::endl;
+			fout.close();
+		}
+	);
+
+	server.Get("/delete",
+		[](const httplib::Request& request, httplib::Response& response)
+		{
+			if (!request.has_param("id"))
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+			std::string id = request.get_param_value("id");
+
+			std::ifstream fin("./data/anime.json");
+			nlohmann::json list = nlohmann::json::parse(fin);
+			fin.close();
+
+			bool isActive = false;
+			std::string index;
+			for (auto& [key, value] : list.items())
+			{
+				if (value.at("id") == id)
+				{
+					index = key;
+					isActive = true;
+					response.set_content(api_success(), ContentType);
+					break;
+				}
+			}
+
+			list.erase(atoi(index.c_str()));
+
+			if (!isActive)
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+
+			std::ofstream fout("./data/anime.json");
+			fout << std::setw(4) << list << std::endl;
+			fout.close();
+		}
+	);
+
+	server.Get("/disable",
+		[](const httplib::Request& request, httplib::Response& response)
+		{
+
+			if (!request.has_param("id"))
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+			std::string id = request.get_param_value("id");
+
+			std::ifstream fin("./data/anime.json");
+			nlohmann::json list = nlohmann::json::parse(fin);
+			fin.close();
+
+			bool isActive = false;
+			for (auto& [key, value] : list.items())
+			{
+				if (value.at("id") == id)
+				{
+					value.at("status") = false;
+					isActive = true;
+					response.set_content(api_success(), ContentType);
+					break;
+				}
+			}
+
+			if (!isActive)
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+
+			std::ofstream fout("./data/anime.json");
+			fout << std::setw(4) << list << std::endl;
+			fout.close();
+		}
+	);
+
+	server.Get("/enable",
+		[](const httplib::Request& request, httplib::Response& response)
+		{
+
+			if (!request.has_param("id"))
+			{
+				response.set_content(api_error(), ContentType);
+				return;
+			}
+			std::string id = request.get_param_value("id");
+
+			std::ifstream fin("./data/anime.json");
+			nlohmann::json list = nlohmann::json::parse(fin);
+			fin.close();
+
+			bool isActive = false;
+			for (auto& [key, value] : list.items())
+			{
+				if (value.at("id") == id)
+				{
+					value.at("status") = true;
+					isActive = true;
+					response.set_content(api_success(), ContentType);
+					break;
+				}
+			}
+
+			if (!isActive)
+			{
+				response.set_content(api_error(), ContentType);
+			}
+
+			std::ofstream fout("./data/anime.json");
+			fout << std::setw(4) << list << std::endl;
+			fout.close();
 		}
 	);
 

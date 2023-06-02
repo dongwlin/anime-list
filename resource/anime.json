@@ -1,32 +1,32 @@
 [
 	{
-		"id": 1,
+		"id": "1",
 		"name": "example",
 		"status": true,
 		"type": -1,
 		"dir": "",
 		"url": "",
-		"img": "none",
+		"img": "",
 		"day": -1
 	},
 	{
-		"id": 2,
+		"id": "2",
 		"name": "example_network",
 		"status": true,
 		"type": 0,
 		"dir": "",
 		"url": "",
-		"img": "none",
+		"img": "",
 		"day": -1
 	},
 	{
-		"id": 3,
+		"id": "3",
 		"name": "example_local",
 		"status": true,
 		"type": 1,
 		"dir": "",
 		"url": "",
-		"img": "none",
+		"img": "",
 		"day": -1
 	}
 ]

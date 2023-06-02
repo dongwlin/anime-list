@@ -1,40 +1,42 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import AnimeList from "@/components/AnimeList.vue";
-import Setting from "@/components/Setting.vue";
-import SettingServer from '@/components/SettingServer.vue';
-import SettingEdit from "@/components/SettingEdit.vue";
-import SettingAbout from '@/components/SettingAbout.vue';
 
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: AnimeList
+        name: 'Home',
+        component: () => import('@/layout/index/index.vue'),
+        redirect: '/index',
+        children: [
+            {
+                path: '/index',
+                name: 'Index',
+                component: () => import('@/views/index/index.vue')
+            }
+        ]
     },
     {
         path: '/setting',
-        name: 'setting',
-        component: Setting,
+        name: 'Setting',
+        component: () => import('@/layout/setting/index.vue'),
         redirect: '/setting/server',
         children: [
             {
                 path: '/setting/server',
-                name: 'server',
-                component: SettingServer
+                name: 'Server',
+                component: () => import('@/views/setting/server/index.vue')
             },
             {
                 path: '/setting/edit',
-                name: 'edit',
-                component: SettingEdit
+                name: 'Edit',
+                component: () => import('@/views/setting/edit/index.vue')
             },
             {
                 path: '/setting/about',
-                name: 'about',
-                component: SettingAbout
+                name: 'About',
+                component: () => import('@/views/setting/about/index.vue')
             }
         ]
-    }
-
+    },
 ];
 
 export default createRouter({
