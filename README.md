@@ -7,6 +7,7 @@
     <img alt="commit" src="https://img.shields.io/github/commit-activity/m/lin-Dongw/AnimeList?color=%23ff69b4">
     <img alt="stars" src="https://img.shields.io/github/stars/lin-Dongw/AnimeList?style=social">
 </div>
+
 一款简单的番剧管理工具
 
 基于vue和cpp
