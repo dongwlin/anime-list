@@ -10,24 +10,26 @@ npm run dev
 npm run build
 ```
 
+这里的指令是windows系统下的，其他系统需要另外修改
+
 ```shell
-md D:\Work\cpp_work\AnimeList\x64\Debug\www\assets
+md "./../x64/Debug/www/assets"
 ||
-del /q D:\Work\cpp_work\AnimeList\x64\Debug\www\assets\*
+del /q ".\..\x64\Debug\www\assets\*"
 &&
-Copy /y "D:\Work\cpp_work\AnimeList\\anime-list\dist" "D:\Work\cpp_work\AnimeList\x64\Debug\www"
+Copy /y "./dist" "./../x64/Debug/www"
 &&
-Copy /y "D:\Work\cpp_work\AnimeList\\anime-list\dist\assets" "D:\Work\cpp_work\AnimeList\x64\Debug\www\assets"
+Copy /y "./dist/assets" "./../x64/Debug/www/assets"
 ```
 
 ```shell
 npm run build
 &&
-md D:\Work\cpp_work\AnimeList\x64\Debug\www\assets
+md "./../x64/Debug/www/assets"
 ||
-del /q D:\Work\cpp_work\AnimeList\x64\Debug\www\assets\*
+del /q ".\..\x64\Debug\www\assets\*"
 &&
-Copy /y "D:\Work\cpp_work\AnimeList\\anime-list\dist" "D:\Work\cpp_work\AnimeList\x64\Debug\www"
+Copy /y "./dist" "./../x64/Debug/www"
 &&
-Copy /y "D:\Work\cpp_work\AnimeList\\anime-list\dist\assets" "D:\Work\cpp_work\AnimeList\x64\Debug\www\assets"
+Copy /y "./dist/assets" "./../x64/Debug/www/assets"
 ```
