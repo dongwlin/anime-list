@@ -43,7 +43,7 @@
 
 ## 番剧信息数据
 
-相关的数据会存储在同个目录下的data子目录里的anime.json文件，具体请看[anime.json说明](./docs/AnimeData.md)
+相关的数据会存储在同个目录下的data子目录里的anime.json文件，具体请看 [anime.json说明](./docs/AnimeData.md)
 
 ## 致谢
 
