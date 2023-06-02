@@ -155,7 +155,6 @@ Copy "$(SolutionDir)anime-list\dist\assets" "$(SolutionDir)$(Platform)\$(Configu
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="apiResult.hpp" />
-    <ClInclude Include="jsonProcess.hpp" />
     <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <ItemGroup>
