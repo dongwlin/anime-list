@@ -1,16 +1,28 @@
 # Anime List
 
+## 简介
+
+Anime List的前端部分
+
+## 依赖安装
+
+```shell
+npm i
+```
+
 ## dev
+
 ```shell
 npm run dev
 ```
 
 ## build
+
 ```shell
 npm run build
 ```
 
-这里的指令是windows系统下的，其他系统需要另外修改
+下面的指令是在windows系统下的运行，其他系统需要另外修改
 
 ```shell
 md "./../x64/Debug/www/assets"
