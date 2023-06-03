@@ -33,9 +33,9 @@ serverStore.handleHi();
         <el-text>Status</el-text>
       </el-col>
       <el-col :span="12">
-        <el-text :type="serverStore.status ? 'success' : 'danger'">
+        <el-tag :type="serverStore.status ? 'success' : 'danger'">
           {{ serverStore.status ? 'Running' : 'Stopped' }}
-        </el-text>
+        </el-tag>
       </el-col>
     </el-row>
     <el-divider></el-divider>
