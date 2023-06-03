@@ -6,6 +6,7 @@ const useServer = defineStore('server', {
     state: () => {
         return {
             status: true,
+            rootDir: '',
             versionCode: 0,
             versionName: 'NONE'
         }
@@ -24,6 +25,7 @@ const useServer = defineStore('server', {
         async handleAbout() {
             await about()
                 .then(res => {
+                    this.rootDir = res.data.rootDir;
                     this.versionCode = res.data.versionCode;
                     this.versionName = res.data.versionName;
                 })
