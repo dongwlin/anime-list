@@ -24,8 +24,8 @@
 const int VERSIONCODE = 0;
 const std::string VERSIONNAME = "DEBUG";
 #else
-const int VERSIONCODE = 7;
-const std::string VERSIONNAME = "v0.07";
+const int VERSIONCODE = 8;
+const std::string VERSIONNAME = "v0.08.0";
 #endif // _DEBUG
 
 
