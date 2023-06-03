@@ -559,6 +559,7 @@ int main()
 		[](const httplib::Request& request, httplib::Response& response)
 		{
 			nlohmann::json result;
+			result["rootDir"] = std::filesystem::current_path().generic_string();
 			result["versionCode"] = VERSIONCODE;
 			result["versionName"] = VERSIONNAME;
 			response.set_content(
