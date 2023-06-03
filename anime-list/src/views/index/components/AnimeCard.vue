@@ -2,7 +2,7 @@
 import { config } from "@/views/setting/edit/config.js";
 import {open} from "@/api/open.js";
 import {ElNotification} from "element-plus";
-import { toType } from "@/utils/toValue.js";
+import { toType, toDay } from "@/utils/toValue.js";
 
 defineProps({
   status: {
@@ -102,7 +102,10 @@ const handleOpen = (type, url, dir) => {
       >
         <el-text class="anime-name" truncated>{{ name }}</el-text>
       </el-card>
-      <el-tag>{{ toType(type) }}</el-tag>
+      <div class="tag-container">
+        <el-tag :class="day !== config.day.none ? 'tag': 'tag-max'">{{ toType(type) }}</el-tag>
+        <el-tag v-if="day !== config.day.none" class="tag">{{ toDay(day) }}</el-tag>
+      </div>
     </div>
   </div>
 </template>
@@ -117,14 +120,14 @@ const handleOpen = (type, url, dir) => {
 .anime-info {
   display: flex;
   width: 220px;
-  height: 90px;
+  height: 100%;
   justify-content: space-between;
   flex-direction: column;
 }
 
 .img {
-  width: 90px;
-  height: 90px;
+  width: 94px;
+  height: 94px;
   margin-right: 10px;
   border-radius: 0.5rem;
 }
@@ -150,5 +153,18 @@ const handleOpen = (type, url, dir) => {
   font-size: 20px;
   font-weight: bolder;
   color: #b1b3b8;
+}
+
+.tag-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tag {
+  width: 49%;
+}
+
+.tag-max {
+  width: 100%;
 }
 </style>
