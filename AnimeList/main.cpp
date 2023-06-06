@@ -20,14 +20,8 @@
 #pragma comment(linker, "/ENTRY:mainCRTStartup")
 #endif // !_DEBUG
 
-#ifdef _DEBUG
-const int VERSIONCODE = 0;
-const std::string VERSIONNAME = "DEBUG";
-#else
-const int VERSIONCODE = 8;
-const std::string VERSIONNAME = "v0.08.0";
-#endif // _DEBUG
-
+const int versionCode = VERSION_CODE;
+const std::string versionName = VERSION_NAME;
 
 #ifdef _DEBUG
 const int PORT = 9311;
@@ -560,8 +554,8 @@ int main()
 		{
 			nlohmann::json result;
 			result["rootDir"] = std::filesystem::current_path().generic_string();
-			result["versionCode"] = VERSIONCODE;
-			result["versionName"] = VERSIONNAME;
+			result["versionCode"] = versionCode;
+			result["versionName"] = versionName;
 			response.set_content(
 				api_success(result),
 				ContentType
