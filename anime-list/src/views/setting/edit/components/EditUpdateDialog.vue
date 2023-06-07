@@ -15,7 +15,7 @@ const form = ref({
   type: -1,
   dir: '',
   url: '',
-  img: 'none',
+  img: '',
   day: -1
 });
 
