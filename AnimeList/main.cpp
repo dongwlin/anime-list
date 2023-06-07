@@ -10,6 +10,8 @@
 #include <chrono>
 #include <cstdlib>
 #include <sstream>
+#include <chrono>
+#include <ctime>
 
 #include "utils.hpp"
 #include "apiResult.hpp"
@@ -30,20 +32,60 @@ const int PORT = 9317;
 #endif // _DEBUG
 std::string ContentType = "application/json;charset=utf8";
 
+#ifdef _DEBUG
+void serverLog(const httplib::Request& req, const httplib::Response& res)
+{
+	std::string buf;
+
+	buf = "================================\n";
+
+	auto now = std::chrono::system_clock::now();
+	std::time_t now_time_t = std::chrono::system_clock::to_time_t(now);
+
+	std::tm time_info;
+	localtime_s(&time_info, &now_time_t);
+
+	char time_str[100];
+	std::strftime(time_str, sizeof(time_str), "%m-%d %H:%M:%S", &time_info);
+
+	buf += std::format("[{}][{}][{:3}] {}\n", time_str, req.method, res.status, req.path);
+
+	if (!req.params.empty())
+	{
+		buf += "query:\n";
+		for (auto it = req.params.begin(); it != req.params.end(); ++it)
+		{
+			const auto& x = *it;
+			buf += std::format("{}: {}\n", x.first, x.second);
+		}
+	}
+
+	if (!req.body.empty())
+	{
+		buf += "body:\n";
+		buf += std::format("{}\n", req.body);
+
+	}
+
+	buf += "--------------------------------\n";
+
+	if (!res.body.empty() && res.get_header_value("Content-Type") == "application/json;charset=utf8")
+	{
+		buf += "body:\n";
+		buf += std::format("{}\n", nlohmann::json::parse(res.body).dump(4));
+	}
+
+	std::cout << buf;
+}
+
+#endif
+
 void init()
 {
 	std::filesystem::path data = "./data";
 	if (!std::filesystem::exists(data))
 	{
-#ifdef _DEBUG
-		std::cout << "data dir not exist" << std::endl;
-#endif // _DEBUG
-
 		std::filesystem::create_directory(data);
-
-#ifdef _DEBUG
-		std::cout << "data dir created" << std::endl;
-#endif // _DEBUG
 
 		nlohmann::json animeObj;
 		animeObj["id"] = utils::getTimestamp();
@@ -61,18 +103,14 @@ void init()
 		std::ofstream out(animeFile);
 		out << std::setw(4) << anime << std::endl;
 		out.close();
-		
-#ifdef _DEBUG
-		std::cout << "anime.json created" << std::endl;
-#endif // _DEBUG
-
 	}
 }
 
 int main()
 {
 #ifdef _DEBUG
-	std::cout << "START" << std::endl;
+	std::cout << std::format("AnimeList development server is started on <http://localhost:{}>", PORT) << std::endl;
+	std::cout << "You can exit with `CTRL+C`" << std::endl;
 #endif // _DEBUG
 
 
@@ -100,45 +138,25 @@ int main()
 	std::filesystem::path image = "./data/image";
 	if (!std::filesystem::exists(www))
 	{
-#ifdef _DEBUG
-		std::cout << "www dir not exists" << std::endl;
-#endif // _DEBUG
-
 		std::filesystem::create_directory(www);
-
-#ifdef _DEBUG
-		std::cout << "www dir created" << std::endl;
-#endif // _DEBUG
-	}
-	else
-	{
-#ifdef _DEBUG
-		std::cout << "www dir exists" << std::endl;
-#endif // _DEBUG
 	}
 	if (!std::filesystem::exists(image))
 	{
-#ifdef _DEBUG
-		std::cout << "image dir not exists" << std::endl;
-#endif // _DEBUG
-
 		std::filesystem::create_directory(image);
-
-#ifdef _DEBUG
-		std::cout << "image dir created" << std::endl;
-#endif // _DEBUG
-	}
-	else
-	{
-#ifdef _DEBUG
-		std::cout << "image dir exists" << std::endl;
-#endif // _DEBUG
 	}
 
 	httplib::Server server;
 
 	server.set_mount_point("/", www.generic_string());
 	server.set_mount_point("/image", image.generic_string());
+
+#ifdef _DEBUG
+	server.set_logger([](const httplib::Request& req, const httplib::Response& res)
+		{
+			serverLog(req, res);
+		}
+	);
+#endif // _DEBUG
 
 	server.Get("/hi",
 		[](const httplib::Request& request, httplib::Response& response)
@@ -164,17 +182,11 @@ int main()
 						api_success(),
 						ContentType
 					);
-#ifdef _DEBUG
-					std::cout << "open folder: " << folder.generic_string() << std::endl;
-#endif // _DEBUG
 				}
 				else
 				{
-#ifdef _DEBUG
-					std::cout << "Error: folder not exist." << std::endl;
-#endif // _DEBUG
 					response.set_content(
-						api_error_404(),
+						api_error(),
 						ContentType
 					);
 				}
@@ -246,8 +258,6 @@ int main()
 			fin.close();
 
 			nlohmann::json animeObj;
-
-
 
 			animeObj["id"] = utils::getTimestamp();
 			if (request.has_file("name"))
@@ -321,11 +331,6 @@ int main()
 			std::ofstream fout("./data/anime.json");
 			fout << std::setw(4) << animeList << std::endl;
 			fout.close();
-
-#ifdef _DEBUG
-			std::cout << "add success" << std::endl;
-#endif // _DEBUG
-
 			response.set_content(
 				api_success(),
 				ContentType
@@ -567,11 +572,6 @@ int main()
 		[&](const httplib::Request& request, httplib::Response& response)
 		{
 			server.stop();
-
-#ifdef _DEBUG
-			std::cout << "END" << std::endl;
-#endif // _DEBUG
-
 		}
 	);
 
