@@ -18,7 +18,7 @@ const openDir = async (folderName) => {
             position: 'bottom-right'
           });
         }
-        else if (response.code === 404)
+        else if (response.code === 500)
         {
           ElNotification({
             title: 'Error',
