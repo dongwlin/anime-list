@@ -45,6 +45,12 @@
 
 相关的数据会存储在同个目录下的data子目录里的anime.json文件，具体请看 [anime.json说明](./docs/AnimeData.md)
 
+## TODO
+
+* [ ] 星期排序
+* [ ] 卡片注释
+* [ ] 编辑页搜索
+
 ## 致谢
 
 ### 开源库
