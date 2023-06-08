@@ -87,6 +87,7 @@ const handleOpen = (type, url, dir) => {
       class="img"
       :src="imgSrc"
       :fit="'cover'"
+      :preview-src-list="[imgSrc]"
       @click="handleOpen(type, url, dir)"
     >
       <template #error>
