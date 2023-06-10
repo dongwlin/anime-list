@@ -69,6 +69,14 @@ serverStore.handleHi();
     <el-divider></el-divider>
     <el-row :gutter="20" :align="'middle'">
       <el-col :span="6" :offset="1" class="item-name">
+        <el-text>Root Dir</el-text>
+      </el-col>
+      <el-col :span="12">
+        <el-button :type="'primary'" @click="openDir(useServer().rootDir)">open</el-button>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20" :align="'middle'">
+      <el-col :span="6" :offset="1" class="item-name">
         <el-text>Server</el-text>
       </el-col>
       <el-col :span="12">
@@ -77,14 +85,6 @@ serverStore.handleHi();
             @click="handleStop"
             :disabled="!serverStore.status"
         >stop</el-button>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20" :align="'middle'">
-      <el-col :span="6" :offset="1" class="item-name">
-        <el-text>Root Dir</el-text>
-      </el-col>
-      <el-col :span="12">
-        <el-button :type="'primary'" @click="openDir(useServer().rootDir)">open</el-button>
       </el-col>
     </el-row>
   </el-card>
