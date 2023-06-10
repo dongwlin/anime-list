@@ -47,8 +47,7 @@ const beforeImgUpload = (rawFile) => {
   if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
     ElMessage.error('Image must be JPG/PNG format!');
     return false;
-  }
-  else if (rawFile.size / 1024 / 1024 > 5) {
+  } else if (rawFile.size / 1024 / 1024 > 5) {
     ElMessage.error('Image size can not exceed 5MB!');
     return false;
   }
@@ -67,8 +66,7 @@ const requestRead = async (id) => {
       .then(res => {
         if (res.code === 200) {
           form.value = res.data;
-        }
-        else {
+        } else {
           ElMessage({
             message: 'failed',
             type: 'error'
@@ -124,7 +122,7 @@ const handleUpdate = async (formEl) => {
 
 <template>
   <el-dialog :model-value="visible" title="Create" @close="handleClose(formRef)" @open="requestRead(id)">
-    <el-form :model="form" :rules="rules"  ref="formRef" hide-required-asterisk>
+    <el-form :model="form" :rules="rules" ref="formRef" hide-required-asterisk>
       <el-form-item label="Name" label-width="20%" prop="name">
         <el-col :span="20">
           <el-input v-model="form.name"/>
