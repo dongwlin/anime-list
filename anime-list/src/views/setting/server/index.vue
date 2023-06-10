@@ -72,7 +72,7 @@ serverStore.handleHi();
         <el-text>Root Dir</el-text>
       </el-col>
       <el-col :span="12">
-        <el-button :type="'primary'" @click="openDir(useServer().rootDir)">open</el-button>
+        <el-button :type="'primary'" @click="openDir(serverStore.rootDir)">open</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="20" :align="'middle'">
