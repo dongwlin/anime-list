@@ -30,7 +30,7 @@ onMounted(() => {
         <el-text>Source Code</el-text>
       </el-col>
       <el-col :span="12">
-        <el-link :type="'primary'" href="https://github.com/lin-Dongw/AnimeList" target="_blank">Github</el-link>
+        <el-link :type="'primary'" href="https://github.com/dongwlin/AnimeList" target="_blank">Github</el-link>
       </el-col>
     </el-row>
   </el-card>
