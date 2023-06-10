@@ -178,6 +178,7 @@ const handleUpdate = async (formEl) => {
         <el-select v-model="form.day" placeholder="Please select a day">
           <el-option
               v-for="item in config.day"
+              :key="item"
               :label="toDay(item)"
               :value="item"
           ></el-option>
