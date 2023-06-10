@@ -17,6 +17,7 @@ useAnimeList().handleList();
           :url="item.url"
           :dir="item.dir"
           :day="item.day"
+          :description="item.description"
         ></AnimeCard>
       </template>
     </template>

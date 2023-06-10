@@ -16,7 +16,8 @@ const form = ref({
   dir: '',
   url: '',
   img: '',
-  day: -1
+  day: -1,
+  description: '',
 });
 
 defineProps({
@@ -92,6 +93,7 @@ const requestUpdate = async () => {
   formData.append('url', form.value.url);
   formData.append('img', form.value.img);
   formData.append('day', form.value.day);
+  formData.append('description', form.value.description);
   await update(formData)
       .then(() => {
         useAnimeList().handleList();
@@ -180,6 +182,11 @@ const handleUpdate = async (formEl) => {
               :value="item"
           ></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="Description" label-width="20%" prop="description">
+        <el-col :span="20">
+          <el-input v-model="form.description"></el-input>
+        </el-col>
       </el-form-item>
     </el-form>
     <template #footer>

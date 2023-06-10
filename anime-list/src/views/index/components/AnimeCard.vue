@@ -3,6 +3,7 @@ import { config } from "@/views/setting/edit/config.js";
 import {open} from "@/api/open.js";
 import {ElNotification} from "element-plus";
 import { toType, toDay } from "@/utils/toValue.js";
+import AnimeDescription from "@/views/index/components/AnimeDescription.vue";
 
 defineProps({
   status: {
@@ -31,6 +32,10 @@ defineProps({
   day: {
     type: Number,
     default: -1,
+  },
+  description: {
+    type: String,
+    default: '',
   }
 });
 
@@ -80,18 +85,21 @@ const handleOpen = (type, url, dir) => {
 
 <template>
   <div class="anime-container">
-    <el-image
-        class="img"
-        :src="imgSrc"
-        :fit="'cover'"
-        :preview-src-list="[imgSrc]"
-    >
-      <template #error>
-        <div class="image-slot">
-          <span class="image-failed-text">Anime</span>
-        </div>
-      </template>
-    </el-image>
+    <div class="img-container">
+      <el-image
+          class="img"
+          :src="imgSrc"
+          :fit="'cover'"
+          :preview-src-list="[imgSrc]"
+      >
+        <template #error>
+          <div class="image-slot">
+            <span class="image-failed-text">Anime</span>
+          </div>
+        </template>
+      </el-image>
+      <AnimeDescription class="description" v-if="description" :content="description"></AnimeDescription>
+    </div>
     <div class="anime-info">
       <el-card shadow="hover" @click="handleOpen(type, url, dir)">
         <el-text class="anime-name" truncated>{{ name }}</el-text>
@@ -119,15 +127,30 @@ const handleOpen = (type, url, dir) => {
   flex-direction: column;
 }
 
-.img {
-  width: 94px;
-  height: 94px;
+.img-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
   margin-right: 10px;
   border-radius: 0.5rem;
 }
 
+.img {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  border-radius: 0.5rem;
+}
+
+.description {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .el-card {
   width: 220px;
+  margin-top: 3px;
 }
 
 .anime-name {

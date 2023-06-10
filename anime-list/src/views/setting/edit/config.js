@@ -17,6 +17,10 @@ export const config = {
             prop: 'day'
         },
         {
+            label: 'Description',
+            prop: 'description',
+        },
+        {
             label: 'Status',
             prop: 'status'
         },
@@ -141,5 +145,12 @@ export const config = {
                 trigger: 'change'
             },
         ],
+        description: [
+            {
+                required: false,
+                message: 'Please input description',
+                trigger: 'blur',
+            }
+        ]
     }
 };
