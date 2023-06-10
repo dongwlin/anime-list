@@ -325,6 +325,14 @@ int main()
 				animeObj["day"] = -1;
 
 			}
+			if (request.has_file("description"))
+			{
+				animeObj["description"] = request.get_file_value("description").content;
+			}
+			else
+			{
+				animeObj["description"] = "";
+			}
 
 			animeList.push_back(animeObj);
 
@@ -380,6 +388,10 @@ int main()
 					if (request.has_file("day"))
 					{
 						value.at("day") = atoi(request.get_file_value("day").content.c_str());
+					}
+					if (request.has_file("description"))
+					{
+						value["description"] = request.get_file_value("description").content;
 					}
 					isActive = true;
 					response.set_content(api_success(), ContentType);
