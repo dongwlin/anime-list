@@ -121,7 +121,10 @@ list.handleList();
           :width="item.width"
           :min-width="item.minWidth"
       >
-        <template v-slot="{row}" v-if="item.prop === 'type'">
+        <template v-slot="{row}" v-if="item.prop === 'name'">
+          <el-text truncated>{{ row.name }}</el-text>
+        </template>
+        <template v-slot="{row}" v-else-if="item.prop === 'type'">
           {{ toType(row.type) }}
         </template>
         <template v-slot="{row}" v-else-if="item.prop === 'day'">
