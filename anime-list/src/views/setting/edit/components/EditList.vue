@@ -31,8 +31,7 @@ const handleDelete = async (id) => {
             message: "success",
             type: "success"
           });
-        }
-        else {
+        } else {
           ElMessage({
             message: "failed",
             type: "error"
@@ -44,6 +43,7 @@ const handleDelete = async (id) => {
           message: "failed",
           type: "error"
         });
+        console.log(error);
       });
 }
 
@@ -55,8 +55,7 @@ const requestDisable = async (id) => {
             message: "success",
             type: "success"
           });
-        }
-        else {
+        } else {
           ElMessage({
             message: "failed",
             type: "error"
@@ -68,6 +67,7 @@ const requestDisable = async (id) => {
           message: "failed",
           type: "error"
         });
+        console.log(error);
       });
 }
 
@@ -79,8 +79,7 @@ const requestEnable = async (id) => {
             message: "success",
             type: "success"
           });
-        }
-        else {
+        } else {
           ElMessage({
             message: "failed",
             type: "error"
@@ -92,18 +91,17 @@ const requestEnable = async (id) => {
           message: "failed",
           type: "error"
         });
+        console.log(error);
       });
 }
 
 const statusSwitch = (id, value) => {
-  if (value)
-  {
+  if (value) {
     requestEnable(id)
-    console.log(id,'true');
-  }
-  else {
+    console.log(id, 'true');
+  } else {
     requestDisable(id);
-    console.log(id,'false');
+    console.log(id, 'false');
   }
 }
 
@@ -128,7 +126,7 @@ list.handleList();
           {{ toType(row.type) }}
         </template>
         <template v-slot="{row}" v-else-if="item.prop === 'day'">
-          {{ toDay(row.day )}}
+          {{ toDay(row.day) }}
         </template>
         <template v-slot="{row}" v-else-if="item.prop === 'status'">
           <el-switch v-model="row.status" @change="statusSwitch(row.id, row.status)"></el-switch>
