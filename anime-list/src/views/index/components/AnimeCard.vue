@@ -41,17 +41,14 @@ const openUrl = (url) => {
 const openDir = async (folderName) => {
   await open(folderName)
       .then(response => {
-        if (response.code === 200)
-        {
+        if (response.code === 200) {
           ElNotification({
             title: 'Success',
             message: 'Open folder success.',
             type: 'success',
             position: 'bottom-right'
           });
-        }
-        else if (response.code === 500)
-        {
+        } else if (response.code === 500) {
           ElNotification({
             title: 'Error',
             message: 'Open folder fail.',
@@ -84,10 +81,10 @@ const handleOpen = (type, url, dir) => {
 <template>
   <div class="anime-container">
     <el-image
-      class="img"
-      :src="imgSrc"
-      :fit="'cover'"
-      :preview-src-list="[imgSrc]"
+        class="img"
+        :src="imgSrc"
+        :fit="'cover'"
+        :preview-src-list="[imgSrc]"
     >
       <template #error>
         <div class="image-slot">
@@ -96,10 +93,7 @@ const handleOpen = (type, url, dir) => {
       </template>
     </el-image>
     <div class="anime-info">
-      <el-card
-          shadow="hover"
-          @click="handleOpen(type, url, dir)"
-      >
+      <el-card shadow="hover" @click="handleOpen(type, url, dir)">
         <el-text class="anime-name" truncated>{{ name }}</el-text>
       </el-card>
       <div class="tag-container">
