@@ -1,6 +1,6 @@
 <script setup>
 import {read} from "@/api/read.js";
-import {ref, watch} from "vue";
+import {ref} from "vue";
 import { config } from "@/views/setting/edit/config.js";
 import { toDay, toType } from "@/utils/toValue.js";
 import { update } from "@/api/update.js";
@@ -39,7 +39,7 @@ const replaceBackslash = (obj) => {
   obj.dir = obj.dir.replaceAll('\\', '/');
 }
 
-const handleImgSuccess = (response, uploadFile) => {
+const handleImgSuccess = (response) => {
   form.value.img = response.data.img;
 }
 
@@ -113,7 +113,7 @@ const requestUpdate = async () => {
 
 const handleUpdate = async (formEl) => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate((valid) => {
     if (valid) {
       requestUpdate();
       handleClose(formEl);
@@ -177,7 +177,7 @@ const handleUpdate = async (formEl) => {
       <el-form-item label="Day" label-width="20%" prop="day">
         <el-select v-model="form.day" placeholder="Please select a day">
           <el-option
-              v-for="(item, index) in config.day"
+              v-for="item in config.day"
               :label="toDay(item)"
               :value="item"
           ></el-option>
