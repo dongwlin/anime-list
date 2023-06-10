@@ -9,17 +9,14 @@ const serverStore = useStore().useServer();
 const openDir = async (folderName) => {
   await open(folderName)
       .then(response => {
-        if (response.code === 200)
-        {
+        if (response.code === 200) {
           ElNotification({
             title: 'Success',
             message: 'Open folder success.',
             type: 'success',
             position: 'bottom-right'
           });
-        }
-        else if (response.code === 500)
-        {
+        } else if (response.code === 500) {
           ElNotification({
             title: 'Error',
             message: 'Open folder fail.',
@@ -84,7 +81,8 @@ serverStore.handleHi();
             type="danger"
             @click="handleStop"
             :disabled="!serverStore.status"
-        >stop</el-button>
+        >stop
+        </el-button>
       </el-col>
     </el-row>
   </el-card>
