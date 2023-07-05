@@ -222,13 +222,13 @@ int main()
 			{
 				imgExtension = "jpg";
 			}
-			else if (img.content_type != "image/png")
+			else if (img.content_type == "image/png")
 			{
 				imgExtension = "png";
 			}
 			else
 			{
-				response.set_content(api_error(), ContentType);
+				response.set_content(api_error("Image extension is not allowed"), ContentType);
 				return;
 			}
 
