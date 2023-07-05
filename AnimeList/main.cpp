@@ -160,10 +160,7 @@ int main()
 	server.Get("/hi",
 		[](const httplib::Request& request, httplib::Response& response)
 		{
-			response.set_content(
-				api_success(),
-				ContentType
-			);
+			response.set_content(api_success(), ContentType);
 		}
 	);
 
@@ -176,18 +173,11 @@ int main()
 				if (std::filesystem::exists(folder) && !folder.empty())
 				{
 					utils::open(folder.generic_string());
-
-					response.set_content(
-						api_success(),
-						ContentType
-					);
+					response.set_content(api_success(), ContentType);
 				}
 				else
 				{
-					response.set_content(
-						api_error(),
-						ContentType
-					);
+					response.set_content(api_error(), ContentType);
 				}
 			}
 		}
@@ -198,10 +188,7 @@ int main()
 		{
 			std::fstream fin("./data/anime.json");
 			nlohmann::json anime = nlohmann::json::parse(fin);
-			response.set_content(
-				api_success(anime),
-				ContentType
-			);
+			response.set_content(api_success(anime), ContentType);
 			fin.close();
 		}
 	);
@@ -333,10 +320,7 @@ int main()
 			std::ofstream fout("./data/anime.json");
 			fout << std::setw(4) << animeList << std::endl;
 			fout.close();
-			response.set_content(
-				api_success(),
-				ContentType
-			);
+			response.set_content(api_success(), ContentType);
 		}
 	);
 
@@ -567,10 +551,7 @@ int main()
 			result["rootDir"] = std::filesystem::current_path().generic_string();
 			result["versionCode"] = versionCode;
 			result["versionName"] = versionName;
-			response.set_content(
-				api_success(result),
-				ContentType
-			);
+			response.set_content(api_success(result), ContentType);
 		}
 	);
 
