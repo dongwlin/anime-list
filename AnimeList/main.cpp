@@ -9,7 +9,6 @@
 #include <Windows.h>
 #include <chrono>
 #include <cstdlib>
-#include <sstream>
 #include <chrono>
 #include <ctime>
 
@@ -232,12 +231,7 @@ int main()
 				return;
 			}
 
-			std::string imgName = "";
-			std::stringstream ss;
-			ss << std::hash<std::string>()(img.content);
-			ss >> imgName;
-			ss.clear();
-			imgName += "." + imgExtension;
+			std::string imgName = std::format("{}.{}", std::hash<std::string>()(img.content), imgExtension);
 			std::filesystem::path imgFile = image / imgName;
 			std::ofstream fout(imgFile, std::ios::binary);
 			fout << img.content;
