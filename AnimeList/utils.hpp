@@ -4,7 +4,6 @@
 #include <string>
 #include <xstring>
 #include <utility>
-#include <sstream>
 #include <iomanip>
 #include <chrono>
 
@@ -98,21 +97,26 @@ namespace utils
     }
 
     std::string url_decode(const std::string& str) {
-        std::stringstream ss;
-        ss << std::hex << std::setfill('0');
-        for (auto i = str.begin(), end = str.end(); i != end; ++i) {
-            if (*i == '+') {
-                ss << ' ';
+        std::string result;
+        result.reserve(str.size());
+        const char* cur = str.c_str();
+        const char* end = cur + str.size();
+        while (cur < end) {
+            if (*cur == '+') {
+                result.push_back(' ');
+                cur++;
             }
-            else if (*i == '%' && std::distance(i, end) > 2 && std::isxdigit(*(i + 1)) && std::isxdigit(*(i + 2))) {
-                ss << static_cast<char>(std::stoi(std::string(i + 1, i + 3), nullptr, 16));
-                i += 2;
+            else if (*cur == '%' && (end - cur) > 2 && std::isxdigit(*(cur + 1)) && std::isxdigit(*(cur + 2))) {
+                char c = static_cast<char>(std::stoi(std::string(cur + 1, cur + 3), nullptr, 16));
+                result.push_back(c);
+                cur += 3;
             }
             else {
-                ss << *i;
+                result.push_back(*cur);
+                cur++;
             }
         }
-        return ss.str();
+        return result;
     }
 
     bool to_bool(std::string str)
