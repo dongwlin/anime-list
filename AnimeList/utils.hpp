@@ -97,19 +97,6 @@ namespace utils
         ShellExecute(nullptr, L"open", tmp.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
     }
 
-    std::pair<std::string, std::string> argExtraction(const std::string& argStr)
-    {
-        std::string tmp = argStr.substr(12, argStr.size());
-        size_t opEnd = tmp.find_first_of('/');
-        if (opEnd != std::string::npos)
-        {
-            std::string op = tmp.substr(0, tmp.find_first_of('/'));
-            tmp = tmp.substr(opEnd + 1, tmp.size());
-            return std::pair<std::string, std::string>(op, tmp);
-        }
-        return std::pair<std::string, std::string>("", "");
-    }
-
     std::string url_decode(const std::string& str) {
         std::stringstream ss;
         ss << std::hex << std::setfill('0');
