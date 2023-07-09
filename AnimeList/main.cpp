@@ -7,10 +7,12 @@
 #include <nlohmann/json.hpp>
 #include <httplib/httplib.h>
 #include <Windows.h>
-#include <chrono>
 #include <cstdlib>
+
+#ifdef _DEBUG
 #include <chrono>
 #include <ctime>
+#endif
 
 #include "utils.hpp"
 #include "apiResult.hpp"
