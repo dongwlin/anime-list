@@ -130,22 +130,9 @@ namespace utils
 
     bool to_bool(std::string str)
     {
-        if (str == "true")
+        if (str == "true" || str == "1")
         {
             return true;
-        }
-        else if (str == "false")
-        {
-            return false;
-        }
-
-        if (str == "1")
-        {
-            return true;
-        }
-        else if (str == "0")
-        {
-            return false;
         }
 
         return false;
