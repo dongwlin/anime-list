@@ -4,9 +4,10 @@ import {toType, toDay} from "@/utils/toValue.js";
 import useAnimeList from '@/store/modules/animeList.js';
 import { disable } from "@/api/disable.js";
 import { enable } from "@/api/enable.js";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElNotification} from "element-plus";
 import {defineAsyncComponent, ref} from "vue";
 import {deleteAnime} from "@/api/delete.js";
+import {open} from "@/api/open.js";
 
 const EditUpdateDialog = defineAsyncComponent(() => import('@/views/setting/edit/components/EditUpdateDialog.vue'));
 const list = useAnimeList();
@@ -105,6 +106,49 @@ const statusSwitch = (id, value) => {
   }
 }
 
+const openUrl = (url) => {
+  window.open(url, '_blank');
+}
+
+const openDir = async (folderName) => {
+  await open(folderName)
+      .then(response => {
+        if (response.code === 200) {
+          ElNotification({
+            title: 'Success',
+            message: 'Open folder success.',
+            type: 'success',
+            position: 'bottom-right'
+          });
+        } else if (response.code === 500) {
+          ElNotification({
+            title: 'Error',
+            message: 'Open folder fail.',
+            type: 'error',
+            position: 'bottom-right'
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+}
+
+const handleOpen = (type, url, dir) => {
+  switch (type) {
+    case config.type.none:
+      break;
+    case config.type.network:
+      openUrl(url);
+      break;
+    case config.type.local:
+      openDir(dir);
+      break;
+    default:
+      break;
+  }
+}
+
 list.handleList();
 </script>
 
@@ -132,6 +176,7 @@ list.handleList();
           <el-switch v-model="row.status" @change="statusSwitch(row.id, row.status)"></el-switch>
         </template>
         <template v-slot="{row}" v-else-if="item.prop === 'operations'">
+          <el-button size="small" type="primary" @click="handleOpen(row.type, row.url, row.dir)">Open</el-button>
           <el-button size="small" @click="handleUpdateDialog(row.id)">Edit</el-button>
           <el-button size="small" type="danger" @click="handleDelete(row.id)">Delete</el-button>
         </template>
