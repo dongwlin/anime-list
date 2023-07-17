@@ -1,34 +1,10 @@
 <script setup>
 import { stop } from "@/api/stop.js";
-import {ElMessage, ElNotification} from "element-plus";
+import { ElMessage } from "element-plus";
 import useStore from '@/store';
-import {open} from "@/api/open.js";
+import { useOpenDir } from "@/hooks/open.js";
 
 const serverStore = useStore().useServer();
-
-const openDir = async (folderName) => {
-  await open(folderName)
-      .then(response => {
-        if (response.code === 200) {
-          ElNotification({
-            title: 'Success',
-            message: 'Open folder success.',
-            type: 'success',
-            position: 'bottom-right'
-          });
-        } else if (response.code === 500) {
-          ElNotification({
-            title: 'Error',
-            message: 'Open folder fail.',
-            type: 'error',
-            position: 'bottom-right'
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-}
 
 const handleStop = async () => {
   await stop()
@@ -69,7 +45,7 @@ serverStore.handleHi();
         <el-text>Root Dir</el-text>
       </el-col>
       <el-col :span="12">
-        <el-button :type="'primary'" @click="openDir(serverStore.rootDir)">open</el-button>
+        <el-button :type="'primary'" @click="useOpenDir(serverStore.rootDir)">open</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="20" :align="'middle'">

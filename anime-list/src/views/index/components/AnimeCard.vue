@@ -1,9 +1,8 @@
 <script setup>
 import { config } from "@/views/setting/edit/config.js";
-import {open} from "@/api/open.js";
-import {ElNotification} from "element-plus";
 import { toType, toDay } from "@/utils/toValue.js";
 import AnimeDescription from "@/views/index/components/AnimeDescription.vue";
+import { useOpen } from "@/hooks/open.js";
 
 defineProps({
   status: {
@@ -38,49 +37,6 @@ defineProps({
     default: '',
   }
 });
-
-const openUrl = (url) => {
-  window.open(url, '_blank');
-}
-
-const openDir = async (folderName) => {
-  await open(folderName)
-      .then(response => {
-        if (response.code === 200) {
-          ElNotification({
-            title: 'Success',
-            message: 'Open folder success.',
-            type: 'success',
-            position: 'bottom-right'
-          });
-        } else if (response.code === 500) {
-          ElNotification({
-            title: 'Error',
-            message: 'Open folder fail.',
-            type: 'error',
-            position: 'bottom-right'
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-}
-
-const handleOpen = (type, url, dir) => {
-  switch (type) {
-    case config.type.none:
-      break;
-    case config.type.network:
-      openUrl(url);
-      break;
-    case config.type.local:
-      openDir(dir);
-      break;
-    default:
-      break;
-  }
-}
 </script>
 
 <template>
@@ -101,7 +57,7 @@ const handleOpen = (type, url, dir) => {
       <AnimeDescription class="description" v-if="description" :content="description"></AnimeDescription>
     </div>
     <div class="anime-info">
-      <el-card shadow="hover" @click="handleOpen(type, url, dir)">
+      <el-card shadow="hover" @click="useOpen(type, url, dir)">
         <el-text class="anime-name" truncated>{{ name }}</el-text>
       </el-card>
       <div class="tag-container">
