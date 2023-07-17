@@ -1,28 +1,9 @@
 <script setup>
-import { stop } from "@/api/stop.js";
-import { ElMessage } from "element-plus";
-import useStore from '@/store';
+import useServer from "@/store/modules/server.js";
 import { useOpenDir } from "@/hooks/open.js";
+import { useStop } from "@/hooks/stop.js";
 
-const serverStore = useStore().useServer();
-
-const handleStop = async () => {
-  await stop()
-      .then(() => {
-        serverStore.status = false;
-        ElMessage({
-          message: 'The server is stopped.',
-          type: 'success'
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        ElMessage({
-          message: 'The server is failed to stop.',
-          type: 'error'
-        });
-      })
-}
+const serverStore = useServer();
 
 serverStore.handleHi();
 </script>
@@ -55,7 +36,7 @@ serverStore.handleHi();
       <el-col :span="12">
         <el-button
             type="danger"
-            @click="handleStop"
+            @click="useStop"
             :disabled="!serverStore.status"
         >stop
         </el-button>
