@@ -86,7 +86,7 @@ public:
 
     BaseValidate(const std::map<std::string, std::vector<std::string>>& rule, const std::map<std::string, std::string>& message) : rule(rule), message(message) {}
 
-    ~BaseValidate() = default;
+    virtual ~BaseValidate() = default;
 
     // 设置验证规则
     void setRule(const std::map<std::string, std::vector<std::string>>& rule)
