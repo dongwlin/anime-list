@@ -207,6 +207,12 @@ public:
                     // 整数范围验证
                     size_t colon_pos = rule.find(':');
                     size_t comma_pos = rule.find(',');
+                    // :和,不存在时
+                    if (colon_pos == std::string::npos || comma_pos == std::string::npos)
+                    {
+                        success = false;
+                        errors[field].push_back(getMessage("invalid_rule", field, "between"));
+                    }
                     try {
                         int min_value = std::stoi(rule.substr(colon_pos + 1, comma_pos));
                         int max_value = std::stoi(rule.substr(comma_pos + 1));
