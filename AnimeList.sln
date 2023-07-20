@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AnimeList", "AnimeList\AnimeList.vcxproj", "{2EA21663-80BA-4C26-B17E-B36A474AE451}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample", "Sample\Sample.vcxproj", "{728919B9-65BF-48EE-8E39-FF811FFEFAA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{2EA21663-80BA-4C26-B17E-B36A474AE451}.Release|x64.Build.0 = Release|x64
 		{2EA21663-80BA-4C26-B17E-B36A474AE451}.Release|x86.ActiveCfg = Release|Win32
 		{2EA21663-80BA-4C26-B17E-B36A474AE451}.Release|x86.Build.0 = Release|Win32
+		{728919B9-65BF-48EE-8E39-FF811FFEFAA2}.Debug|x64.ActiveCfg = Debug|x64
+		{728919B9-65BF-48EE-8E39-FF811FFEFAA2}.Debug|x64.Build.0 = Debug|x64
+		{728919B9-65BF-48EE-8E39-FF811FFEFAA2}.Debug|x86.ActiveCfg = Debug|Win32
+		{728919B9-65BF-48EE-8E39-FF811FFEFAA2}.Debug|x86.Build.0 = Debug|Win32
+		{728919B9-65BF-48EE-8E39-FF811FFEFAA2}.Release|x64.ActiveCfg = Release|x64
+		{728919B9-65BF-48EE-8E39-FF811FFEFAA2}.Release|x64.Build.0 = Release|x64
+		{728919B9-65BF-48EE-8E39-FF811FFEFAA2}.Release|x86.ActiveCfg = Release|Win32
+		{728919B9-65BF-48EE-8E39-FF811FFEFAA2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
