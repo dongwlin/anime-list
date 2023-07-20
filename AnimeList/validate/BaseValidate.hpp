@@ -4,6 +4,7 @@
 #include <string>
 #include <regex>
 #include <algorithm>
+#include <stdexcept>
 
 /**
  * 验证器(针对字符串的)
@@ -44,7 +45,7 @@ protected:
         }
         // 默认错误信息
         std::string msg = "";
-        if (key == "required" || key == "email" || key == "url" || key == "regex" || key == "invalid_rule" || key == "invalid_type")
+        if (key == "required" || key == "email" || key == "url" || key == "regex" || key == "invalid_type")
         {
             msg = defaultMessage[key];
             return replace(msg, ":attribute", attribute);
@@ -63,6 +64,12 @@ protected:
             msg = replace(msg, ":value1", value1);
             msg = replace(msg, ":value2", value2);
             return msg;
+        }
+        else if (key == "invalid_rule")
+        {
+            msg = defaultMessage["invalid_rule"];
+            msg = replace(msg, ":rule", value1);
+            msg = replace(msg, ":attribute", attribute);
         }
         msg = defaultMessage["invalid_rule"];
         msg = replace(msg, ":rule", key);
@@ -142,18 +149,42 @@ public:
                 }
                 else if (rule.substr(0, 4) == "min:") {
                     // 最小长度验证
-                    int min_length = std::stoi(rule.substr(4));
-                    if (input_value.length() < min_length) {
-                        success = false;
-                        errors[field].push_back(getMessage("min", field, min_length));
+                    try {
+                        int min_length = std::stoi(rule.substr(4));
+                        if (input_value.length() < min_length) {
+                            success = false;
+                            errors[field].push_back(getMessage("min", field, min_length));
+                        }
                     }
+                    catch (const std::invalid_argument& e) {
+                        // 字符串不能转化为整数时
+                        success = false;
+                        errors[field].push_back(getMessage("invalid_rule", field, "mix"));
+                    }
+                    catch (const std::out_of_range& e) {
+                        // 字符串转换后超出int范围
+                        success = false;
+                        errors[field].push_back(getMessage("invalid_rule", field, "mix"));
+                    }      
                 }
                 else if (rule.substr(0, 4) == "max:") {
                     // 最大长度验证
-                    int max_length = std::stoi(rule.substr(4));
-                    if (input_value.length() > max_length) {
+                    try {
+                        int max_length = std::stoi(rule.substr(4));
+                        if (input_value.length() > max_length) {
+                            success = false;
+                            errors[field].push_back(getMessage("max", field, max_length));
+                        }
+                    }
+                    catch (const std::invalid_argument& e) {
+                        // 字符串不能转化为整数时
                         success = false;
-                        errors[field].push_back(getMessage("max", field, max_length));
+                        errors[field].push_back(getMessage("invalid_rule", field, "max"));
+                    }
+                    catch (const std::out_of_range& e) {
+                        // 字符串转换后超出int范围
+                        success = false;
+                        errors[field].push_back(getMessage("invalid_rule", field, "max"));
                     }
                 }
                 else if (rule == "email") {
@@ -176,11 +207,23 @@ public:
                     // 整数范围验证
                     size_t colon_pos = rule.find(':');
                     size_t comma_pos = rule.find(',');
-                    int min_value = std::stoi(rule.substr(colon_pos + 1, comma_pos));
-                    int max_value = std::stoi(rule.substr(comma_pos + 1));
-                    if (std::stoi(input_value) < min_value || std::stoi(input_value) > max_value) {
+                    try {
+                        int min_value = std::stoi(rule.substr(colon_pos + 1, comma_pos));
+                        int max_value = std::stoi(rule.substr(comma_pos + 1));
+                        if (std::stoi(input_value) < min_value || std::stoi(input_value) > max_value) {
+                            success = false;
+                            errors[field].push_back(getMessage("between", field, min_value, max_value));
+                        }
+                    }
+                    catch (const std::invalid_argument& e) {
+                        // 字符串不能转化为整数时
                         success = false;
-                        errors[field].push_back(getMessage("between", field, min_value, max_value));
+                        errors[field].push_back(getMessage("invalid_rule", field, "between"));
+                    }
+                    catch (const std::out_of_range& e) {
+                        // 字符串转换后超出int范围
+                        success = false;
+                        errors[field].push_back(getMessage("invalid_rule", field, "between"));
                     }
                 }
             }
