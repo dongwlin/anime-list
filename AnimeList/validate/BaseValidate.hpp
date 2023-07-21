@@ -85,6 +85,17 @@ protected:
         return getMessage(key, attribute, strValue1, strValue2);
     }
 
+    // ×Ö·û´®Ìæ»»
+    std::string replace(std::string str, const std::string& from, const std::string& to)
+    {
+        size_t pos = str.find(from);
+        if (pos != std::string::npos)
+        {
+            str.replace(pos, from.length(), to);
+        }
+        return str;
+    }
+
 public:
     BaseValidate() = default;
 
@@ -102,17 +113,6 @@ public:
     void setMessage(const std::map<std::string, std::string>& message)
     {
         this->message = message;
-    }
-
-    // ×Ö·û´®Ìæ»»
-    std::string replace(std::string str, const std::string& from, const std::string& to)
-    {
-        size_t pos = str.find(from);
-        if (pos != std::string::npos)
-        {
-            str.replace(pos, from.length(), to);
-        }
-        return str;
     }
 
     // ÑéÖ¤
