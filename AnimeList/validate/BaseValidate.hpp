@@ -167,12 +167,12 @@ public:
                     catch (const std::invalid_argument& e) {
                         // 字符串不能转化为整数时
                         success = false;
-                        errors[field].push_back(getMessage("invalid_rule", field, "mix"));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }
                     catch (const std::out_of_range& e) {
                         // 字符串转换后超出int范围
                         success = false;
-                        errors[field].push_back(getMessage("invalid_rule", field, "mix"));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }      
                 }
                 else if (rule.substr(0, 4) == "max:") {
@@ -187,12 +187,12 @@ public:
                     catch (const std::invalid_argument& e) {
                         // 字符串不能转化为整数时
                         success = false;
-                        errors[field].push_back(getMessage("invalid_rule", field, "max"));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }
                     catch (const std::out_of_range& e) {
                         // 字符串转换后超出int范围
                         success = false;
-                        errors[field].push_back(getMessage("invalid_rule", field, "max"));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }
                 }
                 else if (rule == "email") {
@@ -247,12 +247,12 @@ public:
                     catch (const std::invalid_argument& e) {
                         // 字符串不能转化为整数时
                         success = false;
-                        errors[field].push_back(getMessage("invalid_rule", field, "between"));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }
                     catch (const std::out_of_range& e) {
                         // 字符串转换后超出int范围
                         success = false;
-                        errors[field].push_back(getMessage("invalid_rule", field, "between"));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }
                 }
             }
