@@ -142,10 +142,17 @@ public:
                 }
                 else if (rule.substr(0, 6) == "regex:") {
                     // 正则表达式验证
-                    std::regex pattern(rule.substr(6));
-                    if (!std::regex_match(input_value, pattern)) {
+                    try {
+                        std::regex pattern(rule.substr(6));
+                        if (!std::regex_match(input_value, pattern)) {
+                            success = false;
+                            errors[field].push_back(getMessage("regex", field));
+                        }
+                    }
+                    catch (const std::regex_error& e) {
+                        // 语法错误或正则表达式太复杂时
                         success = false;
-                        errors[field].push_back(getMessage("regex", field));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }
                 }
                 else if (rule.substr(0, 4) == "min:") {
@@ -190,18 +197,33 @@ public:
                 }
                 else if (rule == "email") {
                     // 邮箱格式验证
-                    std::regex pattern(R"(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)");
-                    if (!std::regex_match(input_value, pattern)) {
+                    try {
+                        std::regex pattern(R"(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)");
+                        if (!std::regex_match(input_value, pattern)) {
+                            success = false;
+                            errors[field].push_back(getMessage("email", field));
+                        }
+                    }
+                    catch (const std::regex_error& e) {
+                        // 语法错误或正则表达式太复杂时
                         success = false;
-                        errors[field].push_back(getMessage("email", field));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }
                 }
                 else if (rule == "url") {
                     // URL 格式验证
-                    std::regex pattern(R"(https?://\S+)");
-                    if (!std::regex_match(input_value, pattern)) {
+                    
+                    try {
+                        std::regex pattern(R"(https?://\S+)");
+                        if (!std::regex_match(input_value, pattern)) {
+                            success = false;
+                            errors[field].push_back(getMessage("url", field));
+                        }
+                    }
+                    catch (const std::regex_error& e) {
+                        // 语法错误或正则表达式太复杂时
                         success = false;
-                        errors[field].push_back(getMessage("url", field));
+                        errors[field].push_back(getMessage("invalid_rule", field, rule));
                     }
                 }
                 else if (rule.substr(0, 8) == "between:") {
