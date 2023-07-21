@@ -70,6 +70,7 @@ protected:
             msg = defaultMessage["invalid_rule"];
             msg = replace(msg, ":rule", value1);
             msg = replace(msg, ":attribute", attribute);
+            return msg;
         }
         msg = defaultMessage["invalid_rule"];
         msg = replace(msg, ":rule", key);
