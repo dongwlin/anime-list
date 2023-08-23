@@ -25,16 +25,6 @@ npm run build
 下面的指令是在windows系统下的运行，其他系统需要另外修改
 
 ```shell
-md "./../x64/Debug/www/assets"
-||
-del /q ".\..\x64\Debug\www\assets\*"
-&&
-Copy /y "./dist" "./../x64/Debug/www"
-&&
-Copy /y "./dist/assets" "./../x64/Debug/www/assets"
-```
-
-```shell
 npm run build
 &&
 md "./../x64/Debug/www/assets"
