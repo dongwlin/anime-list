@@ -38,8 +38,6 @@ void serverLog(const httplib::Request& req, const httplib::Response& res)
 {
 	std::string buf;
 
-	buf = "================================\n";
-
 	auto now = std::chrono::system_clock::now();
 	std::time_t now_time_t = std::chrono::system_clock::to_time_t(now);
 
@@ -50,31 +48,6 @@ void serverLog(const httplib::Request& req, const httplib::Response& res)
 	std::strftime(time_str, sizeof(time_str), "%m-%d %H:%M:%S", &time_info);
 
 	buf += std::format("[{}][{}][{:3}] {}\n", time_str, req.method, res.status, req.path);
-
-	if (!req.params.empty())
-	{
-		buf += "query:\n";
-		for (auto it = req.params.begin(); it != req.params.end(); ++it)
-		{
-			const auto& x = *it;
-			buf += std::format("{}: {}\n", x.first, x.second);
-		}
-	}
-
-	if (!req.body.empty())
-	{
-		buf += "body:\n";
-		buf += std::format("{}\n", req.body);
-
-	}
-
-	buf += "--------------------------------\n";
-
-	if (!res.body.empty() && res.get_header_value("Content-Type") == "application/json;charset=utf8")
-	{
-		buf += "body:\n";
-		buf += std::format("{}\n", nlohmann::json::parse(res.body).dump(4));
-	}
 
 	std::cout << buf;
 }
