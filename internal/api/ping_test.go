@@ -2,7 +2,9 @@ package api
 
 import (
 	"bytes"
+	"github.com/dongwlin/anime-list/internal/mock"
 	"github.com/stretchr/testify/require"
+	"go.uber.org/mock/gomock"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -10,7 +12,11 @@ import (
 )
 
 func TestPing(t *testing.T) {
-	server := NewServer()
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := mock.NewMockStore(ctrl)
+	server := NewServer(store)
 	recorder := httptest.NewRecorder()
 
 	url := "/ping"

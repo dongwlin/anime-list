@@ -1,15 +1,19 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/dongwlin/anime-list/internal/db"
+	"github.com/gin-gonic/gin"
+)
 
 // Server serves HTTP requests for anime-list service.
 type Server struct {
+	store  db.Store
 	router *gin.Engine
 }
 
 // NewServer creates a new HTTP server and setup routing.
-func NewServer() *Server {
-	server := &Server{}
+func NewServer(store db.Store) *Server {
+	server := &Server{store: store}
 
 	router := gin.Default()
 
