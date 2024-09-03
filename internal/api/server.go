@@ -24,8 +24,8 @@ func NewServer(store db.Store) *Server {
 }
 
 // Start runs the HTTP Server on a specific address.
-func (server *Server) Start(address string) error {
-	return server.router.Run(address)
+func (s *Server) Start(address string) error {
+	return s.router.Run(address)
 }
 
 func errorResponse(err error) gin.H {
