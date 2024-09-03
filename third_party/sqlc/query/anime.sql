@@ -1,11 +1,10 @@
 -- name: CreateAnime :one
 INSERT INTO animes (
-    user_id,
     name,
     desc,
     status
 ) VALUES (
-    ?, ?, ?, ?
+    ?, ?, ?
 )
 RETURNING *;
 

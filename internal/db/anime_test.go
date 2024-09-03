@@ -10,10 +10,8 @@ import (
 )
 
 func createRandomAnime(t *testing.T) Anime {
-	user := createRandomUser(t)
 
 	arg := CreateAnimeParams{
-		UserID: user.ID,
 		Name:   util.RandomString(6),
 		Desc:   util.RandomString(16),
 		Status: 0,
@@ -23,7 +21,6 @@ func createRandomAnime(t *testing.T) Anime {
 	require.NoError(t, err)
 	require.NotEmpty(t, anime)
 
-	require.Equal(t, arg.UserID, anime.UserID)
 	require.Equal(t, arg.Name, anime.Name)
 	require.Equal(t, arg.Desc, anime.Desc)
 	require.Equal(t, arg.Status, anime.Status)
@@ -44,7 +41,6 @@ func TestQueries_GetAnime(t *testing.T) {
 	require.NotEmpty(t, anime2)
 
 	require.Equal(t, anime1.ID, anime2.ID)
-	require.Equal(t, anime1.UserID, anime2.UserID)
 	require.Equal(t, anime1.Name, anime2.Name)
 	require.Equal(t, anime1.Desc, anime2.Desc)
 	require.Equal(t, anime1.Status, anime2.Status)
@@ -86,7 +82,6 @@ func TestQueries_UpdateAnime(t *testing.T) {
 	require.NotEmpty(t, anime2)
 
 	require.Equal(t, anime1.ID, anime2.ID)
-	require.Equal(t, anime1.UserID, anime2.UserID)
 	require.Equal(t, arg.Name, anime2.Name)
 	require.Equal(t, arg.Desc, anime2.Desc)
 	require.Equal(t, arg.Status, anime2.Status)

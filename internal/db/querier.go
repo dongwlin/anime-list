@@ -9,32 +9,26 @@ import (
 )
 
 type Querier interface {
-	ChangePassword(ctx context.Context, arg ChangePasswordParams) (User, error)
 	CreateAnime(ctx context.Context, arg CreateAnimeParams) (Anime, error)
 	CreateEpisode(ctx context.Context, arg CreateEpisodeParams) (Episode, error)
 	CreateSeason(ctx context.Context, arg CreateSeasonParams) (Season, error)
 	CreateTheater(ctx context.Context, arg CreateTheaterParams) (Theater, error)
-	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	DeleteAnime(ctx context.Context, id int64) error
 	DeleteEpisode(ctx context.Context, id int64) error
 	DeleteSeason(ctx context.Context, id int64) error
 	DeleteTheater(ctx context.Context, id int64) error
-	DeleteUser(ctx context.Context, id int64) error
 	GetAnime(ctx context.Context, id int64) (Anime, error)
 	GetEpisode(ctx context.Context, id int64) (Episode, error)
 	GetSeason(ctx context.Context, id int64) (Season, error)
 	GetTheater(ctx context.Context, id int64) (Theater, error)
-	GetUser(ctx context.Context, id int64) (User, error)
 	ListAnime(ctx context.Context, arg ListAnimeParams) ([]Anime, error)
 	ListEpisode(ctx context.Context, arg ListEpisodeParams) ([]Episode, error)
 	ListSeason(ctx context.Context, arg ListSeasonParams) ([]Season, error)
 	ListTheater(ctx context.Context, arg ListTheaterParams) ([]Theater, error)
-	ListUser(ctx context.Context, arg ListUserParams) ([]User, error)
 	UpdateAnime(ctx context.Context, arg UpdateAnimeParams) (Anime, error)
 	UpdateEpisode(ctx context.Context, arg UpdateEpisodeParams) (Episode, error)
 	UpdateSeason(ctx context.Context, arg UpdateSeasonParams) (Season, error)
 	UpdateTheater(ctx context.Context, arg UpdateTheaterParams) (Theater, error)
-	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 }
 
 var _ Querier = (*Queries)(nil)
