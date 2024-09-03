@@ -9,6 +9,18 @@ import (
 	"context"
 )
 
+const countAnime = `-- name: CountAnime :one
+SELECT COUNT(*) AS total
+FROM animes
+`
+
+func (q *Queries) CountAnime(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, countAnime)
+	var total int64
+	err := row.Scan(&total)
+	return total, err
+}
+
 const createAnime = `-- name: CreateAnime :one
 INSERT INTO animes (
     name,

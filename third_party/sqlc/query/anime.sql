@@ -19,6 +19,10 @@ ORDER BY id
 LIMIT ?
 OFFSET ?;
 
+-- name: CountAnime :one
+SELECT COUNT(*) AS total
+FROM animes;
+
 -- name: UpdateAnime :one
 UPDATE animes
 SET name = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
