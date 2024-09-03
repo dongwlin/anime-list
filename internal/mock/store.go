@@ -40,6 +40,21 @@ func (m *MockStore) EXPECT() *MockStoreMockRecorder {
 	return m.recorder
 }
 
+// CountAnime mocks base method.
+func (m *MockStore) CountAnime(arg0 context.Context) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountAnime", arg0)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountAnime indicates an expected call of CountAnime.
+func (mr *MockStoreMockRecorder) CountAnime(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountAnime", reflect.TypeOf((*MockStore)(nil).CountAnime), arg0)
+}
+
 // CreateAnime mocks base method.
 func (m *MockStore) CreateAnime(arg0 context.Context, arg1 db.CreateAnimeParams) (db.Anime, error) {
 	m.ctrl.T.Helper()
