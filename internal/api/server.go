@@ -19,6 +19,14 @@ func NewServer(store db.Store) *Server {
 
 	router.Any("/ping", server.ping)
 
+	api := router.Group("/api")
+
+	api.POST("/animes", server.createAnime)
+	api.GET("animes", server.listAnime)
+	api.GET("/animes/:id", server.getAnime)
+	api.PUT("/animes/:id", server.updateAnime)
+	api.DELETE("/animes/:id", server.deleteAnime)
+
 	server.router = router
 	return server
 }
@@ -26,10 +34,4 @@ func NewServer(store db.Store) *Server {
 // Start runs the HTTP Server on a specific address.
 func (s *Server) Start(address string) error {
 	return s.router.Run(address)
-}
-
-func errorResponse(err error) gin.H {
-	return gin.H{
-		"error": err.Error(),
-	}
 }
