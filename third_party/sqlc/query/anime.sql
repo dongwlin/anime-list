@@ -1,7 +1,7 @@
 -- name: CreateAnime :one
 INSERT INTO animes (
     name,
-    desc,
+    description,
     status
 ) VALUES (
     ?, ?, ?
@@ -21,7 +21,7 @@ OFFSET ?;
 
 -- name: UpdateAnime :one
 UPDATE animes
-SET name = ?, desc = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
 WHERE id = ?
 RETURNING *;
 

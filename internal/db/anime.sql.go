@@ -12,27 +12,27 @@ import (
 const createAnime = `-- name: CreateAnime :one
 INSERT INTO animes (
     name,
-    desc,
+    description,
     status
 ) VALUES (
     ?, ?, ?
 )
-RETURNING id, name, "desc", status, created_at, updated_at
+RETURNING id, name, description, status, created_at, updated_at
 `
 
 type CreateAnimeParams struct {
-	Name   string `json:"name"`
-	Desc   string `json:"desc"`
-	Status int64  `json:"status"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Status      int64  `json:"status"`
 }
 
 func (q *Queries) CreateAnime(ctx context.Context, arg CreateAnimeParams) (Anime, error) {
-	row := q.db.QueryRowContext(ctx, createAnime, arg.Name, arg.Desc, arg.Status)
+	row := q.db.QueryRowContext(ctx, createAnime, arg.Name, arg.Description, arg.Status)
 	var i Anime
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -51,7 +51,7 @@ func (q *Queries) DeleteAnime(ctx context.Context, id int64) error {
 }
 
 const getAnime = `-- name: GetAnime :one
-SELECT id, name, "desc", status, created_at, updated_at FROM animes
+SELECT id, name, description, status, created_at, updated_at FROM animes
 WHERE id = ?
 LIMIT 1
 `
@@ -62,7 +62,7 @@ func (q *Queries) GetAnime(ctx context.Context, id int64) (Anime, error) {
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -71,7 +71,7 @@ func (q *Queries) GetAnime(ctx context.Context, id int64) (Anime, error) {
 }
 
 const listAnime = `-- name: ListAnime :many
-SELECT id, name, "desc", status, created_at, updated_at FROM animes
+SELECT id, name, description, status, created_at, updated_at FROM animes
 ORDER BY id
 LIMIT ?
 OFFSET ?
@@ -94,7 +94,7 @@ func (q *Queries) ListAnime(ctx context.Context, arg ListAnimeParams) ([]Anime, 
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
-			&i.Desc,
+			&i.Description,
 			&i.Status,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -114,22 +114,22 @@ func (q *Queries) ListAnime(ctx context.Context, arg ListAnimeParams) ([]Anime, 
 
 const updateAnime = `-- name: UpdateAnime :one
 UPDATE animes
-SET name = ?, desc = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
 WHERE id = ?
-RETURNING id, name, "desc", status, created_at, updated_at
+RETURNING id, name, description, status, created_at, updated_at
 `
 
 type UpdateAnimeParams struct {
-	Name   string `json:"name"`
-	Desc   string `json:"desc"`
-	Status int64  `json:"status"`
-	ID     int64  `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Status      int64  `json:"status"`
+	ID          int64  `json:"id"`
 }
 
 func (q *Queries) UpdateAnime(ctx context.Context, arg UpdateAnimeParams) (Anime, error) {
 	row := q.db.QueryRowContext(ctx, updateAnime,
 		arg.Name,
-		arg.Desc,
+		arg.Description,
 		arg.Status,
 		arg.ID,
 	)
@@ -137,7 +137,7 @@ func (q *Queries) UpdateAnime(ctx context.Context, arg UpdateAnimeParams) (Anime
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,

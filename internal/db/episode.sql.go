@@ -14,20 +14,20 @@ INSERT INTO episodes (
     season_id,
     name,
     value,
-    desc,
+    description,
     status
 ) VALUES (
     ?, ?, ?, ?, ?
 )
-RETURNING id, season_id, name, value, "desc", status, created_at, updated_at
+RETURNING id, season_id, name, value, description, status, created_at, updated_at
 `
 
 type CreateEpisodeParams struct {
-	SeasonID int64  `json:"season_id"`
-	Name     string `json:"name"`
-	Value    int64  `json:"value"`
-	Desc     string `json:"desc"`
-	Status   int64  `json:"status"`
+	SeasonID    int64  `json:"season_id"`
+	Name        string `json:"name"`
+	Value       int64  `json:"value"`
+	Description string `json:"description"`
+	Status      int64  `json:"status"`
 }
 
 func (q *Queries) CreateEpisode(ctx context.Context, arg CreateEpisodeParams) (Episode, error) {
@@ -35,7 +35,7 @@ func (q *Queries) CreateEpisode(ctx context.Context, arg CreateEpisodeParams) (E
 		arg.SeasonID,
 		arg.Name,
 		arg.Value,
-		arg.Desc,
+		arg.Description,
 		arg.Status,
 	)
 	var i Episode
@@ -44,7 +44,7 @@ func (q *Queries) CreateEpisode(ctx context.Context, arg CreateEpisodeParams) (E
 		&i.SeasonID,
 		&i.Name,
 		&i.Value,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -63,7 +63,7 @@ func (q *Queries) DeleteEpisode(ctx context.Context, id int64) error {
 }
 
 const getEpisode = `-- name: GetEpisode :one
-SELECT id, season_id, name, value, "desc", status, created_at, updated_at FROM episodes
+SELECT id, season_id, name, value, description, status, created_at, updated_at FROM episodes
 WHERE id = ?
 LIMIT 1
 `
@@ -76,7 +76,7 @@ func (q *Queries) GetEpisode(ctx context.Context, id int64) (Episode, error) {
 		&i.SeasonID,
 		&i.Name,
 		&i.Value,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -85,7 +85,7 @@ func (q *Queries) GetEpisode(ctx context.Context, id int64) (Episode, error) {
 }
 
 const listEpisode = `-- name: ListEpisode :many
-SELECT id, season_id, name, value, "desc", status, created_at, updated_at FROM episodes
+SELECT id, season_id, name, value, description, status, created_at, updated_at FROM episodes
 ORDER BY id
 LIMIT ?
 OFFSET ?
@@ -110,7 +110,7 @@ func (q *Queries) ListEpisode(ctx context.Context, arg ListEpisodeParams) ([]Epi
 			&i.SeasonID,
 			&i.Name,
 			&i.Value,
-			&i.Desc,
+			&i.Description,
 			&i.Status,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -130,24 +130,24 @@ func (q *Queries) ListEpisode(ctx context.Context, arg ListEpisodeParams) ([]Epi
 
 const updateEpisode = `-- name: UpdateEpisode :one
 UPDATE episodes
-SET name = ?, value = ?, desc = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, value = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
 WHERE id = ?
-RETURNING id, season_id, name, value, "desc", status, created_at, updated_at
+RETURNING id, season_id, name, value, description, status, created_at, updated_at
 `
 
 type UpdateEpisodeParams struct {
-	Name   string `json:"name"`
-	Value  int64  `json:"value"`
-	Desc   string `json:"desc"`
-	Status int64  `json:"status"`
-	ID     int64  `json:"id"`
+	Name        string `json:"name"`
+	Value       int64  `json:"value"`
+	Description string `json:"description"`
+	Status      int64  `json:"status"`
+	ID          int64  `json:"id"`
 }
 
 func (q *Queries) UpdateEpisode(ctx context.Context, arg UpdateEpisodeParams) (Episode, error) {
 	row := q.db.QueryRowContext(ctx, updateEpisode,
 		arg.Name,
 		arg.Value,
-		arg.Desc,
+		arg.Description,
 		arg.Status,
 		arg.ID,
 	)
@@ -157,7 +157,7 @@ func (q *Queries) UpdateEpisode(ctx context.Context, arg UpdateEpisodeParams) (E
 		&i.SeasonID,
 		&i.Name,
 		&i.Value,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,

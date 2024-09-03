@@ -5,7 +5,7 @@ INSERT INTO seasons (
     value,
     cover,
     released_at,
-    desc,
+    description,
     status
 ) VALUES (
     ?, ?, ?, ?, ?, ?, ?
@@ -25,7 +25,7 @@ OFFSET ?;
 
 -- name: UpdateSeason :one
 UPDATE seasons
-SET name = ?, value = ?, cover = ?, released_at = ?, desc = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, value = ?, cover = ?, released_at = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
 WHERE id = ?
 RETURNING *;
 

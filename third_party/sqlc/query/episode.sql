@@ -3,7 +3,7 @@ INSERT INTO episodes (
     season_id,
     name,
     value,
-    desc,
+    description,
     status
 ) VALUES (
     ?, ?, ?, ?, ?
@@ -23,7 +23,7 @@ OFFSET ?;
 
 -- name: UpdateEpisode :one
 UPDATE episodes
-SET name = ?, value = ?, desc = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, value = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
 WHERE id = ?
 RETURNING *;
 

@@ -17,22 +17,22 @@ INSERT INTO seasons (
     value,
     cover,
     released_at,
-    desc,
+    description,
     status
 ) VALUES (
     ?, ?, ?, ?, ?, ?, ?
 )
-RETURNING id, anime_id, name, value, cover, released_at, "desc", status, created_at, updated_at
+RETURNING id, anime_id, name, value, cover, released_at, description, status, created_at, updated_at
 `
 
 type CreateSeasonParams struct {
-	AnimeID    int64     `json:"anime_id"`
-	Name       string    `json:"name"`
-	Value      int64     `json:"value"`
-	Cover      string    `json:"cover"`
-	ReleasedAt time.Time `json:"released_at"`
-	Desc       string    `json:"desc"`
-	Status     int64     `json:"status"`
+	AnimeID     int64     `json:"anime_id"`
+	Name        string    `json:"name"`
+	Value       int64     `json:"value"`
+	Cover       string    `json:"cover"`
+	ReleasedAt  time.Time `json:"released_at"`
+	Description string    `json:"description"`
+	Status      int64     `json:"status"`
 }
 
 func (q *Queries) CreateSeason(ctx context.Context, arg CreateSeasonParams) (Season, error) {
@@ -42,7 +42,7 @@ func (q *Queries) CreateSeason(ctx context.Context, arg CreateSeasonParams) (Sea
 		arg.Value,
 		arg.Cover,
 		arg.ReleasedAt,
-		arg.Desc,
+		arg.Description,
 		arg.Status,
 	)
 	var i Season
@@ -53,7 +53,7 @@ func (q *Queries) CreateSeason(ctx context.Context, arg CreateSeasonParams) (Sea
 		&i.Value,
 		&i.Cover,
 		&i.ReleasedAt,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -72,7 +72,7 @@ func (q *Queries) DeleteSeason(ctx context.Context, id int64) error {
 }
 
 const getSeason = `-- name: GetSeason :one
-SELECT id, anime_id, name, value, cover, released_at, "desc", status, created_at, updated_at FROM seasons
+SELECT id, anime_id, name, value, cover, released_at, description, status, created_at, updated_at FROM seasons
 WHERE id = ?
 LIMIT 1
 `
@@ -87,7 +87,7 @@ func (q *Queries) GetSeason(ctx context.Context, id int64) (Season, error) {
 		&i.Value,
 		&i.Cover,
 		&i.ReleasedAt,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -96,7 +96,7 @@ func (q *Queries) GetSeason(ctx context.Context, id int64) (Season, error) {
 }
 
 const listSeason = `-- name: ListSeason :many
-SELECT id, anime_id, name, value, cover, released_at, "desc", status, created_at, updated_at FROM seasons
+SELECT id, anime_id, name, value, cover, released_at, description, status, created_at, updated_at FROM seasons
 ORDER BY id
 LIMIT ?
 OFFSET ?
@@ -123,7 +123,7 @@ func (q *Queries) ListSeason(ctx context.Context, arg ListSeasonParams) ([]Seaso
 			&i.Value,
 			&i.Cover,
 			&i.ReleasedAt,
-			&i.Desc,
+			&i.Description,
 			&i.Status,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -143,19 +143,19 @@ func (q *Queries) ListSeason(ctx context.Context, arg ListSeasonParams) ([]Seaso
 
 const updateSeason = `-- name: UpdateSeason :one
 UPDATE seasons
-SET name = ?, value = ?, cover = ?, released_at = ?, desc = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, value = ?, cover = ?, released_at = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
 WHERE id = ?
-RETURNING id, anime_id, name, value, cover, released_at, "desc", status, created_at, updated_at
+RETURNING id, anime_id, name, value, cover, released_at, description, status, created_at, updated_at
 `
 
 type UpdateSeasonParams struct {
-	Name       string    `json:"name"`
-	Value      int64     `json:"value"`
-	Cover      string    `json:"cover"`
-	ReleasedAt time.Time `json:"released_at"`
-	Desc       string    `json:"desc"`
-	Status     int64     `json:"status"`
-	ID         int64     `json:"id"`
+	Name        string    `json:"name"`
+	Value       int64     `json:"value"`
+	Cover       string    `json:"cover"`
+	ReleasedAt  time.Time `json:"released_at"`
+	Description string    `json:"description"`
+	Status      int64     `json:"status"`
+	ID          int64     `json:"id"`
 }
 
 func (q *Queries) UpdateSeason(ctx context.Context, arg UpdateSeasonParams) (Season, error) {
@@ -164,7 +164,7 @@ func (q *Queries) UpdateSeason(ctx context.Context, arg UpdateSeasonParams) (Sea
 		arg.Value,
 		arg.Cover,
 		arg.ReleasedAt,
-		arg.Desc,
+		arg.Description,
 		arg.Status,
 		arg.ID,
 	)
@@ -176,7 +176,7 @@ func (q *Queries) UpdateSeason(ctx context.Context, arg UpdateSeasonParams) (Sea
 		&i.Value,
 		&i.Cover,
 		&i.ReleasedAt,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,

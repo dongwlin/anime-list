@@ -16,21 +16,21 @@ INSERT INTO theaters (
     name,
     cover,
     released_at,
-    desc,
+    description,
     status
 ) VALUES (
     ?, ?, ?, ?, ?, ?
 )
-RETURNING id, anime_id, name, cover, released_at, "desc", status, created_at, updated_at
+RETURNING id, anime_id, name, cover, released_at, description, status, created_at, updated_at
 `
 
 type CreateTheaterParams struct {
-	AnimeID    int64     `json:"anime_id"`
-	Name       string    `json:"name"`
-	Cover      string    `json:"cover"`
-	ReleasedAt time.Time `json:"released_at"`
-	Desc       string    `json:"desc"`
-	Status     int64     `json:"status"`
+	AnimeID     int64     `json:"anime_id"`
+	Name        string    `json:"name"`
+	Cover       string    `json:"cover"`
+	ReleasedAt  time.Time `json:"released_at"`
+	Description string    `json:"description"`
+	Status      int64     `json:"status"`
 }
 
 func (q *Queries) CreateTheater(ctx context.Context, arg CreateTheaterParams) (Theater, error) {
@@ -39,7 +39,7 @@ func (q *Queries) CreateTheater(ctx context.Context, arg CreateTheaterParams) (T
 		arg.Name,
 		arg.Cover,
 		arg.ReleasedAt,
-		arg.Desc,
+		arg.Description,
 		arg.Status,
 	)
 	var i Theater
@@ -49,7 +49,7 @@ func (q *Queries) CreateTheater(ctx context.Context, arg CreateTheaterParams) (T
 		&i.Name,
 		&i.Cover,
 		&i.ReleasedAt,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -68,7 +68,7 @@ func (q *Queries) DeleteTheater(ctx context.Context, id int64) error {
 }
 
 const getTheater = `-- name: GetTheater :one
-SELECT id, anime_id, name, cover, released_at, "desc", status, created_at, updated_at FROM theaters
+SELECT id, anime_id, name, cover, released_at, description, status, created_at, updated_at FROM theaters
 WHERE id = ?
 LIMIT 1
 `
@@ -82,7 +82,7 @@ func (q *Queries) GetTheater(ctx context.Context, id int64) (Theater, error) {
 		&i.Name,
 		&i.Cover,
 		&i.ReleasedAt,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -91,7 +91,7 @@ func (q *Queries) GetTheater(ctx context.Context, id int64) (Theater, error) {
 }
 
 const listTheater = `-- name: ListTheater :many
-SELECT id, anime_id, name, cover, released_at, "desc", status, created_at, updated_at FROM theaters
+SELECT id, anime_id, name, cover, released_at, description, status, created_at, updated_at FROM theaters
 ORDER BY id
 LIMIT ?
 OFFSET ?
@@ -117,7 +117,7 @@ func (q *Queries) ListTheater(ctx context.Context, arg ListTheaterParams) ([]The
 			&i.Name,
 			&i.Cover,
 			&i.ReleasedAt,
-			&i.Desc,
+			&i.Description,
 			&i.Status,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -137,18 +137,18 @@ func (q *Queries) ListTheater(ctx context.Context, arg ListTheaterParams) ([]The
 
 const updateTheater = `-- name: UpdateTheater :one
 UPDATE theaters
-SET name = ?, cover = ?, released_at = ?, desc = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, cover = ?, released_at = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
 WHERE id = ?
-RETURNING id, anime_id, name, cover, released_at, "desc", status, created_at, updated_at
+RETURNING id, anime_id, name, cover, released_at, description, status, created_at, updated_at
 `
 
 type UpdateTheaterParams struct {
-	Name       string    `json:"name"`
-	Cover      string    `json:"cover"`
-	ReleasedAt time.Time `json:"released_at"`
-	Desc       string    `json:"desc"`
-	Status     int64     `json:"status"`
-	ID         int64     `json:"id"`
+	Name        string    `json:"name"`
+	Cover       string    `json:"cover"`
+	ReleasedAt  time.Time `json:"released_at"`
+	Description string    `json:"description"`
+	Status      int64     `json:"status"`
+	ID          int64     `json:"id"`
 }
 
 func (q *Queries) UpdateTheater(ctx context.Context, arg UpdateTheaterParams) (Theater, error) {
@@ -156,7 +156,7 @@ func (q *Queries) UpdateTheater(ctx context.Context, arg UpdateTheaterParams) (T
 		arg.Name,
 		arg.Cover,
 		arg.ReleasedAt,
-		arg.Desc,
+		arg.Description,
 		arg.Status,
 		arg.ID,
 	)
@@ -167,7 +167,7 @@ func (q *Queries) UpdateTheater(ctx context.Context, arg UpdateTheaterParams) (T
 		&i.Name,
 		&i.Cover,
 		&i.ReleasedAt,
-		&i.Desc,
+		&i.Description,
 		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,

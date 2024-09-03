@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	CountAnime(ctx context.Context) (int64, error)
 	CreateAnime(ctx context.Context, arg CreateAnimeParams) (Anime, error)
 	CreateEpisode(ctx context.Context, arg CreateEpisodeParams) (Episode, error)
 	CreateSeason(ctx context.Context, arg CreateSeasonParams) (Season, error)
