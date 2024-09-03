@@ -13,11 +13,11 @@ func createRandomEpisode(t *testing.T) Episode {
 	season := createRandomSeason(t)
 
 	arg := CreateEpisodeParams{
-		SeasonID: season.ID,
-		Name:     util.RandomString(6),
-		Value:    util.RandomInt64(1, 225),
-		Desc:     util.RandomString(16),
-		Status:   0,
+		SeasonID:    season.ID,
+		Name:        util.RandomString(6),
+		Value:       util.RandomInt64(1, 225),
+		Description: util.RandomString(16),
+		Status:      0,
 	}
 
 	episode, err := testQueries.CreateEpisode(context.Background(), arg)
@@ -27,7 +27,7 @@ func createRandomEpisode(t *testing.T) Episode {
 	require.Equal(t, arg.SeasonID, episode.SeasonID)
 	require.Equal(t, arg.Name, episode.Name)
 	require.Equal(t, arg.Value, episode.Value)
-	require.Equal(t, arg.Desc, episode.Desc)
+	require.Equal(t, arg.Description, episode.Description)
 	require.Equal(t, arg.Status, episode.Status)
 	require.NotZero(t, episode.CreatedAt)
 	require.NotZero(t, episode.UpdatedAt)
@@ -50,7 +50,7 @@ func TestQueries_GetEpisode(t *testing.T) {
 	require.Equal(t, episode1.SeasonID, episode2.SeasonID)
 	require.Equal(t, episode1.Name, episode2.Name)
 	require.Equal(t, episode1.Value, episode2.Value)
-	require.Equal(t, episode1.Desc, episode2.Desc)
+	require.Equal(t, episode1.Description, episode2.Description)
 	require.Equal(t, episode1.Status, episode2.Status)
 	require.WithinDuration(t, episode1.CreatedAt, episode2.CreatedAt, time.Second)
 	require.WithinDuration(t, episode1.UpdatedAt, episode2.UpdatedAt, time.Second)
@@ -79,11 +79,11 @@ func TestQueries_UpdateEpisode(t *testing.T) {
 	episode1 := createRandomEpisode(t)
 
 	arg := UpdateEpisodeParams{
-		ID:     episode1.ID,
-		Name:   util.RandomString(6),
-		Value:  util.RandomInt64(1, 255),
-		Desc:   util.RandomString(16),
-		Status: util.RandomInt64(1, 7),
+		ID:          episode1.ID,
+		Name:        util.RandomString(6),
+		Value:       util.RandomInt64(1, 255),
+		Description: util.RandomString(16),
+		Status:      util.RandomInt64(1, 7),
 	}
 
 	episode2, err := testQueries.UpdateEpisode(context.Background(), arg)
@@ -94,7 +94,7 @@ func TestQueries_UpdateEpisode(t *testing.T) {
 	require.Equal(t, episode1.SeasonID, episode2.SeasonID)
 	require.Equal(t, arg.Name, episode2.Name)
 	require.Equal(t, arg.Value, episode2.Value)
-	require.Equal(t, arg.Desc, episode2.Desc)
+	require.Equal(t, arg.Description, episode2.Description)
 	require.Equal(t, arg.Status, episode2.Status)
 	require.WithinDuration(t, episode1.CreatedAt, episode2.CreatedAt, time.Second)
 	//require.NotEqual(t, episode1.UpdatedAt, episode2.UpdatedAt)

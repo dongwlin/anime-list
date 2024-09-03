@@ -12,9 +12,9 @@ import (
 func createRandomAnime(t *testing.T) Anime {
 
 	arg := CreateAnimeParams{
-		Name:   util.RandomString(6),
-		Desc:   util.RandomString(16),
-		Status: 0,
+		Name:        util.RandomString(6),
+		Description: util.RandomString(16),
+		Status:      0,
 	}
 
 	anime, err := testQueries.CreateAnime(context.Background(), arg)
@@ -22,7 +22,7 @@ func createRandomAnime(t *testing.T) Anime {
 	require.NotEmpty(t, anime)
 
 	require.Equal(t, arg.Name, anime.Name)
-	require.Equal(t, arg.Desc, anime.Desc)
+	require.Equal(t, arg.Description, anime.Description)
 	require.Equal(t, arg.Status, anime.Status)
 	require.NotZero(t, anime.CreatedAt)
 	require.NotZero(t, anime.UpdatedAt)
@@ -42,7 +42,7 @@ func TestQueries_GetAnime(t *testing.T) {
 
 	require.Equal(t, anime1.ID, anime2.ID)
 	require.Equal(t, anime1.Name, anime2.Name)
-	require.Equal(t, anime1.Desc, anime2.Desc)
+	require.Equal(t, anime1.Description, anime2.Description)
 	require.Equal(t, anime1.Status, anime2.Status)
 	require.WithinDuration(t, anime1.CreatedAt, anime2.CreatedAt, time.Second)
 	require.WithinDuration(t, anime1.UpdatedAt, anime2.UpdatedAt, time.Second)
@@ -71,10 +71,10 @@ func TestQueries_UpdateAnime(t *testing.T) {
 	anime1 := createRandomAnime(t)
 
 	arg := UpdateAnimeParams{
-		ID:     anime1.ID,
-		Name:   util.RandomString(6),
-		Desc:   util.RandomString(16),
-		Status: util.RandomInt64(1, 7),
+		ID:          anime1.ID,
+		Name:        util.RandomString(6),
+		Description: util.RandomString(16),
+		Status:      util.RandomInt64(1, 7),
 	}
 
 	anime2, err := testQueries.UpdateAnime(context.Background(), arg)
@@ -83,7 +83,7 @@ func TestQueries_UpdateAnime(t *testing.T) {
 
 	require.Equal(t, anime1.ID, anime2.ID)
 	require.Equal(t, arg.Name, anime2.Name)
-	require.Equal(t, arg.Desc, anime2.Desc)
+	require.Equal(t, arg.Description, anime2.Description)
 	require.Equal(t, arg.Status, anime2.Status)
 	require.WithinDuration(t, anime1.CreatedAt, anime2.CreatedAt, time.Second)
 	//require.NotEqual(t, anime1.UpdatedAt, anime2.UpdatedAt)

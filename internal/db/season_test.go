@@ -13,13 +13,13 @@ func createRandomSeason(t *testing.T) Season {
 	anime := createRandomAnime(t)
 
 	arg := CreateSeasonParams{
-		AnimeID:    anime.ID,
-		Name:       util.RandomString(6),
-		Value:      util.RandomInt64(1, 32),
-		Cover:      util.RandomString(255),
-		ReleasedAt: time.Now(),
-		Desc:       util.RandomString(16),
-		Status:     util.RandomInt64(1, 7),
+		AnimeID:     anime.ID,
+		Name:        util.RandomString(6),
+		Value:       util.RandomInt64(1, 32),
+		Cover:       util.RandomString(255),
+		ReleasedAt:  time.Now(),
+		Description: util.RandomString(16),
+		Status:      util.RandomInt64(1, 7),
 	}
 
 	season, err := testQueries.CreateSeason(context.Background(), arg)
@@ -31,7 +31,7 @@ func createRandomSeason(t *testing.T) Season {
 	require.Equal(t, arg.Value, season.Value)
 	require.Equal(t, arg.Cover, season.Cover)
 	require.WithinDuration(t, arg.ReleasedAt, season.ReleasedAt, time.Second)
-	require.Equal(t, arg.Desc, season.Desc)
+	require.Equal(t, arg.Description, season.Description)
 	require.Equal(t, arg.Status, season.Status)
 	require.NotZero(t, season.CreatedAt)
 	require.NotZero(t, season.UpdatedAt)
@@ -56,7 +56,7 @@ func TestQueries_GetSeason(t *testing.T) {
 	require.Equal(t, season1.Value, season2.Value)
 	require.Equal(t, season1.Cover, season2.Cover)
 	require.WithinDuration(t, season1.ReleasedAt, season2.ReleasedAt, time.Second)
-	require.Equal(t, season1.Desc, season2.Desc)
+	require.Equal(t, season1.Description, season2.Description)
 	require.Equal(t, season1.Status, season2.Status)
 	require.WithinDuration(t, season1.CreatedAt, season2.CreatedAt, time.Second)
 	require.WithinDuration(t, season1.UpdatedAt, season2.UpdatedAt, time.Second)
@@ -85,13 +85,13 @@ func TestQueries_UpdateSeason(t *testing.T) {
 	season1 := createRandomSeason(t)
 
 	arg := UpdateSeasonParams{
-		ID:         season1.ID,
-		Name:       util.RandomString(6),
-		Value:      util.RandomInt64(1, 32),
-		Cover:      util.RandomString(255),
-		ReleasedAt: time.Now(),
-		Desc:       util.RandomString(16),
-		Status:     util.RandomInt64(1, 7),
+		ID:          season1.ID,
+		Name:        util.RandomString(6),
+		Value:       util.RandomInt64(1, 32),
+		Cover:       util.RandomString(255),
+		ReleasedAt:  time.Now(),
+		Description: util.RandomString(16),
+		Status:      util.RandomInt64(1, 7),
 	}
 
 	season2, err := testQueries.UpdateSeason(context.Background(), arg)
@@ -104,7 +104,7 @@ func TestQueries_UpdateSeason(t *testing.T) {
 	require.Equal(t, arg.Value, season2.Value)
 	require.Equal(t, arg.Cover, season2.Cover)
 	require.WithinDuration(t, arg.ReleasedAt, season2.ReleasedAt, time.Second)
-	require.Equal(t, arg.Desc, season2.Desc)
+	require.Equal(t, arg.Description, season2.Description)
 	require.Equal(t, arg.Status, season2.Status)
 	require.WithinDuration(t, season1.CreatedAt, season2.CreatedAt, time.Second)
 	//require.NotEqual(t, season1.UpdatedAt, season2.UpdatedAt)
