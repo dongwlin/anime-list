@@ -5,7 +5,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var version = "dev"
+var (
+	buildAt   string
+	goVersion string
+	version   = "dev"
+)
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
@@ -14,7 +18,9 @@ var versionCmd = &cobra.Command{
 }
 
 func versionRun(_ *cobra.Command, _ []string) {
-	fmt.Println(version)
+	fmt.Printf(`build at: %s
+go version: %s
+version: %s`, buildAt, goVersion, version)
 }
 
 func init() {
