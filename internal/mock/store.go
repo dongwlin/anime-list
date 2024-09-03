@@ -40,21 +40,6 @@ func (m *MockStore) EXPECT() *MockStoreMockRecorder {
 	return m.recorder
 }
 
-// ChangePassword mocks base method.
-func (m *MockStore) ChangePassword(arg0 context.Context, arg1 db.ChangePasswordParams) (db.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ChangePassword", arg0, arg1)
-	ret0, _ := ret[0].(db.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ChangePassword indicates an expected call of ChangePassword.
-func (mr *MockStoreMockRecorder) ChangePassword(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangePassword", reflect.TypeOf((*MockStore)(nil).ChangePassword), arg0, arg1)
-}
-
 // CreateAnime mocks base method.
 func (m *MockStore) CreateAnime(arg0 context.Context, arg1 db.CreateAnimeParams) (db.Anime, error) {
 	m.ctrl.T.Helper()
@@ -115,21 +100,6 @@ func (mr *MockStoreMockRecorder) CreateTheater(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTheater", reflect.TypeOf((*MockStore)(nil).CreateTheater), arg0, arg1)
 }
 
-// CreateUser mocks base method.
-func (m *MockStore) CreateUser(arg0 context.Context, arg1 db.CreateUserParams) (db.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateUser", arg0, arg1)
-	ret0, _ := ret[0].(db.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// CreateUser indicates an expected call of CreateUser.
-func (mr *MockStoreMockRecorder) CreateUser(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockStore)(nil).CreateUser), arg0, arg1)
-}
-
 // DeleteAnime mocks base method.
 func (m *MockStore) DeleteAnime(arg0 context.Context, arg1 int64) error {
 	m.ctrl.T.Helper()
@@ -184,20 +154,6 @@ func (m *MockStore) DeleteTheater(arg0 context.Context, arg1 int64) error {
 func (mr *MockStoreMockRecorder) DeleteTheater(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTheater", reflect.TypeOf((*MockStore)(nil).DeleteTheater), arg0, arg1)
-}
-
-// DeleteUser mocks base method.
-func (m *MockStore) DeleteUser(arg0 context.Context, arg1 int64) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteUser", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteUser indicates an expected call of DeleteUser.
-func (mr *MockStoreMockRecorder) DeleteUser(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockStore)(nil).DeleteUser), arg0, arg1)
 }
 
 // GetAnime mocks base method.
@@ -260,21 +216,6 @@ func (mr *MockStoreMockRecorder) GetTheater(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTheater", reflect.TypeOf((*MockStore)(nil).GetTheater), arg0, arg1)
 }
 
-// GetUser mocks base method.
-func (m *MockStore) GetUser(arg0 context.Context, arg1 int64) (db.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUser", arg0, arg1)
-	ret0, _ := ret[0].(db.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetUser indicates an expected call of GetUser.
-func (mr *MockStoreMockRecorder) GetUser(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockStore)(nil).GetUser), arg0, arg1)
-}
-
 // ListAnime mocks base method.
 func (m *MockStore) ListAnime(arg0 context.Context, arg1 db.ListAnimeParams) ([]db.Anime, error) {
 	m.ctrl.T.Helper()
@@ -335,21 +276,6 @@ func (mr *MockStoreMockRecorder) ListTheater(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTheater", reflect.TypeOf((*MockStore)(nil).ListTheater), arg0, arg1)
 }
 
-// ListUser mocks base method.
-func (m *MockStore) ListUser(arg0 context.Context, arg1 db.ListUserParams) ([]db.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListUser", arg0, arg1)
-	ret0, _ := ret[0].([]db.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ListUser indicates an expected call of ListUser.
-func (mr *MockStoreMockRecorder) ListUser(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUser", reflect.TypeOf((*MockStore)(nil).ListUser), arg0, arg1)
-}
-
 // UpdateAnime mocks base method.
 func (m *MockStore) UpdateAnime(arg0 context.Context, arg1 db.UpdateAnimeParams) (db.Anime, error) {
 	m.ctrl.T.Helper()
@@ -408,19 +334,4 @@ func (m *MockStore) UpdateTheater(arg0 context.Context, arg1 db.UpdateTheaterPar
 func (mr *MockStoreMockRecorder) UpdateTheater(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTheater", reflect.TypeOf((*MockStore)(nil).UpdateTheater), arg0, arg1)
-}
-
-// UpdateUser mocks base method.
-func (m *MockStore) UpdateUser(arg0 context.Context, arg1 db.UpdateUserParams) (db.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateUser", arg0, arg1)
-	ret0, _ := ret[0].(db.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// UpdateUser indicates an expected call of UpdateUser.
-func (mr *MockStoreMockRecorder) UpdateUser(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockStore)(nil).UpdateUser), arg0, arg1)
 }
