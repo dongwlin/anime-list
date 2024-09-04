@@ -9,10 +9,7 @@ import (
 	"time"
 )
 
-func createRandomEpisode(t *testing.T) Episode {
-	anime := createRandomAnime(t)
-	season := createRandomSeason(t, anime)
-
+func createRandomEpisode(t *testing.T, season Season) Episode {
 	arg := CreateEpisodeParams{
 		SeasonID:    season.ID,
 		Name:        util.RandomString(6),
@@ -37,11 +34,15 @@ func createRandomEpisode(t *testing.T) Episode {
 }
 
 func TestQueries_CreateEpisode(t *testing.T) {
-	createRandomEpisode(t)
+	anime := createRandomAnime(t)
+	season := createRandomSeason(t, anime)
+	createRandomEpisode(t, season)
 }
 
 func TestQueries_GetEpisode(t *testing.T) {
-	episode1 := createRandomEpisode(t)
+	anime := createRandomAnime(t)
+	season := createRandomSeason(t, anime)
+	episode1 := createRandomEpisode(t, season)
 
 	episode2, err := testQueries.GetEpisode(context.Background(), episode1.ID)
 	require.NoError(t, err)
@@ -58,13 +59,16 @@ func TestQueries_GetEpisode(t *testing.T) {
 }
 
 func TestQueries_ListEpisode(t *testing.T) {
+	anime := createRandomAnime(t)
+	season := createRandomSeason(t, anime)
 	for i := 0; i < 10; i++ {
-		createRandomEpisode(t)
+		createRandomEpisode(t, season)
 	}
 
 	arg := ListEpisodeParams{
-		Limit:  5,
-		Offset: 5,
+		SeasonID: season.ID,
+		Limit:    5,
+		Offset:   5,
 	}
 
 	episodes, err := testQueries.ListEpisode(context.Background(), arg)
@@ -77,7 +81,9 @@ func TestQueries_ListEpisode(t *testing.T) {
 }
 
 func TestQueries_UpdateEpisode(t *testing.T) {
-	episode1 := createRandomEpisode(t)
+	anime := createRandomAnime(t)
+	season := createRandomSeason(t, anime)
+	episode1 := createRandomEpisode(t, season)
 
 	arg := UpdateEpisodeParams{
 		ID:          episode1.ID,
@@ -102,7 +108,9 @@ func TestQueries_UpdateEpisode(t *testing.T) {
 }
 
 func TestQueries_DeleteEpisode(t *testing.T) {
-	episode1 := createRandomEpisode(t)
+	anime := createRandomAnime(t)
+	season := createRandomSeason(t, anime)
+	episode1 := createRandomEpisode(t, season)
 
 	err := testQueries.DeleteEpisode(context.Background(), episode1.ID)
 	require.NoError(t, err)
