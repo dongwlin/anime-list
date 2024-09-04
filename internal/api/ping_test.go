@@ -2,7 +2,7 @@ package api
 
 import (
 	"bytes"
-	"github.com/dongwlin/anime-list/internal/mock"
+	"github.com/dongwlin/anime-list/internal/db/mock"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 	"io"

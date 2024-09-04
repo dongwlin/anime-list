@@ -8,4 +8,4 @@ sqlc:
 
 .PHONY: mock
 mock:
-	mockgen -package mock -destination internal/mock/store.go github.com/dongwlin/anime-list/internal/db Store
+	mockgen -package mock -destination internal/db/mock/store.go github.com/dongwlin/anime-list/internal/db Store
