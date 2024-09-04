@@ -10,7 +10,8 @@ import (
 )
 
 func createRandomEpisode(t *testing.T) Episode {
-	season := createRandomSeason(t)
+	anime := createRandomAnime(t)
+	season := createRandomSeason(t, anime)
 
 	arg := CreateEpisodeParams{
 		SeasonID:    season.ID,

@@ -9,9 +9,7 @@ import (
 	"time"
 )
 
-func createRandomSeason(t *testing.T) Season {
-	anime := createRandomAnime(t)
-
+func createRandomSeason(t *testing.T, anime Anime) Season {
 	arg := CreateSeasonParams{
 		AnimeID:     anime.ID,
 		Name:        util.RandomString(6),
@@ -40,11 +38,13 @@ func createRandomSeason(t *testing.T) Season {
 }
 
 func TestQueries_CreateSeason(t *testing.T) {
-	createRandomSeason(t)
+	anime := createRandomAnime(t)
+	createRandomSeason(t, anime)
 }
 
 func TestQueries_GetSeason(t *testing.T) {
-	season1 := createRandomSeason(t)
+	anime := createRandomAnime(t)
+	season1 := createRandomSeason(t, anime)
 
 	season2, err := testQueries.GetSeason(context.Background(), season1.ID)
 	require.NoError(t, err)
@@ -63,13 +63,15 @@ func TestQueries_GetSeason(t *testing.T) {
 }
 
 func TestQueries_ListSeason(t *testing.T) {
+	anime := createRandomAnime(t)
 	for i := 0; i < 10; i++ {
-		createRandomSeason(t)
+		createRandomSeason(t, anime)
 	}
 
 	arg := ListSeasonParams{
-		Limit:  5,
-		Offset: 5,
+		AnimeID: anime.ID,
+		Limit:   5,
+		Offset:  5,
 	}
 
 	seasons, err := testQueries.ListSeason(context.Background(), arg)
@@ -82,7 +84,8 @@ func TestQueries_ListSeason(t *testing.T) {
 }
 
 func TestQueries_UpdateSeason(t *testing.T) {
-	season1 := createRandomSeason(t)
+	anime := createRandomAnime(t)
+	season1 := createRandomSeason(t, anime)
 
 	arg := UpdateSeasonParams{
 		ID:          season1.ID,
@@ -111,7 +114,8 @@ func TestQueries_UpdateSeason(t *testing.T) {
 }
 
 func TestQueries_DeleteSeason(t *testing.T) {
-	season1 := createRandomSeason(t)
+	anime := createRandomAnime(t)
+	season1 := createRandomSeason(t, anime)
 
 	err := testQueries.DeleteSeason(context.Background(), season1.ID)
 	require.NoError(t, err)
