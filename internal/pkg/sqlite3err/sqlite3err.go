@@ -1,4 +1,4 @@
-package util
+package sqlite3err
 
 import (
 	"github.com/ncruces/go-sqlite3"
