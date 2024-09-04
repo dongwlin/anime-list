@@ -9,9 +9,7 @@ import (
 	"time"
 )
 
-func createRandomTheater(t *testing.T) Theater {
-	anime := createRandomAnime(t)
-
+func createRandomTheater(t *testing.T, anime Anime) Theater {
 	arg := CreateTheaterParams{
 		AnimeID:     anime.ID,
 		Name:        util.RandomString(6),
@@ -38,11 +36,13 @@ func createRandomTheater(t *testing.T) Theater {
 }
 
 func TestQueries_CreateTheater(t *testing.T) {
-	createRandomTheater(t)
+	anime := createRandomAnime(t)
+	createRandomTheater(t, anime)
 }
 
 func TestQueries_GetTheater(t *testing.T) {
-	theater1 := createRandomTheater(t)
+	anime := createRandomAnime(t)
+	theater1 := createRandomTheater(t, anime)
 
 	theater2, err := testQueries.GetTheater(context.Background(), theater1.ID)
 	require.NoError(t, err)
@@ -60,8 +60,9 @@ func TestQueries_GetTheater(t *testing.T) {
 }
 
 func TestQueries_ListTheater(t *testing.T) {
+	anime := createRandomAnime(t)
 	for i := 0; i < 10; i++ {
-		createRandomTheater(t)
+		createRandomTheater(t, anime)
 	}
 
 	arg := ListTheaterParams{
@@ -79,7 +80,8 @@ func TestQueries_ListTheater(t *testing.T) {
 }
 
 func TestQueries_UpdateTheater(t *testing.T) {
-	theater1 := createRandomTheater(t)
+	anime := createRandomAnime(t)
+	theater1 := createRandomTheater(t, anime)
 
 	arg := UpdateTheaterParams{
 		ID:         theater1.ID,
@@ -104,7 +106,8 @@ func TestQueries_UpdateTheater(t *testing.T) {
 }
 
 func TestQueries_DeleteTheater(t *testing.T) {
-	theater1 := createRandomTheater(t)
+	anime := createRandomAnime(t)
+	theater1 := createRandomTheater(t, anime)
 
 	err := testQueries.DeleteTheater(context.Background(), theater1.ID)
 	require.NoError(t, err)
