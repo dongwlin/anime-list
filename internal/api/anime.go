@@ -70,6 +70,9 @@ func (s *Server) listAnime(ctx *gin.Context) {
 	if total%req.Size != 0 {
 		totalPages++
 	}
+	if totalPages == 0 {
+		req.Page = 0
+	}
 	pagination := &Pagination{
 		TotalItems:  total,
 		TotalPages:  totalPages,
