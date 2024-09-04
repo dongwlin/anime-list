@@ -119,9 +119,8 @@ func (s *Server) getSeason(ctx *gin.Context) {
 }
 
 type updateSeasonRequest struct {
-	ID          int64     `json:"id"`
-	Name        string    `json:"name"`
-	Value       int64     `json:"value"`
+	Name        string    `json:"name" binding:"required"`
+	Value       int64     `json:"value" binding:"required"`
 	Cover       string    `json:"cover"`
 	ReleasedAt  time.Time `json:"released_at"`
 	Description string    `json:"description"`
