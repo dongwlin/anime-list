@@ -9,6 +9,19 @@ import (
 	"context"
 )
 
+const countEpisode = `-- name: CountEpisode :one
+SELECT COUNT(*) as total
+FROM episodes
+WHERE season_id = ?
+`
+
+func (q *Queries) CountEpisode(ctx context.Context, seasonID int64) (int64, error) {
+	row := q.db.QueryRowContext(ctx, countEpisode, seasonID)
+	var total int64
+	err := row.Scan(&total)
+	return total, err
+}
+
 const createEpisode = `-- name: CreateEpisode :one
 INSERT INTO episodes (
     season_id,
@@ -86,18 +99,20 @@ func (q *Queries) GetEpisode(ctx context.Context, id int64) (Episode, error) {
 
 const listEpisode = `-- name: ListEpisode :many
 SELECT id, season_id, name, value, description, status, created_at, updated_at FROM episodes
+WHERE season_id = ?
 ORDER BY id
 LIMIT ?
 OFFSET ?
 `
 
 type ListEpisodeParams struct {
-	Limit  int64 `json:"limit"`
-	Offset int64 `json:"offset"`
+	SeasonID int64 `json:"season_id"`
+	Limit    int64 `json:"limit"`
+	Offset   int64 `json:"offset"`
 }
 
 func (q *Queries) ListEpisode(ctx context.Context, arg ListEpisodeParams) ([]Episode, error) {
-	rows, err := q.db.QueryContext(ctx, listEpisode, arg.Limit, arg.Offset)
+	rows, err := q.db.QueryContext(ctx, listEpisode, arg.SeasonID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

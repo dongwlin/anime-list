@@ -55,6 +55,21 @@ func (mr *MockStoreMockRecorder) CountAnime(arg0 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountAnime", reflect.TypeOf((*MockStore)(nil).CountAnime), arg0)
 }
 
+// CountEpisode mocks base method.
+func (m *MockStore) CountEpisode(arg0 context.Context, arg1 int64) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountEpisode", arg0, arg1)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountEpisode indicates an expected call of CountEpisode.
+func (mr *MockStoreMockRecorder) CountEpisode(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountEpisode", reflect.TypeOf((*MockStore)(nil).CountEpisode), arg0, arg1)
+}
+
 // CountSeason mocks base method.
 func (m *MockStore) CountSeason(arg0 context.Context, arg1 int64) (int64, error) {
 	m.ctrl.T.Helper()

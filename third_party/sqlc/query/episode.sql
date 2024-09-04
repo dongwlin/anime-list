@@ -17,9 +17,16 @@ LIMIT 1;
 
 -- name: ListEpisode :many
 SELECT * FROM episodes
+WHERE season_id = ?
 ORDER BY id
 LIMIT ?
 OFFSET ?;
+
+-- name: CountEpisode :one
+SELECT COUNT(*) as total
+FROM episodes
+WHERE season_id = ?;
+
 
 -- name: UpdateEpisode :one
 UPDATE episodes

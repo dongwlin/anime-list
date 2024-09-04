@@ -32,6 +32,13 @@ func NewServer(store db.Store) *Server {
 	api.GET("/seasons/:seasonId", server.getSeason)
 	api.PUT("/seasons/:seasonId", server.updateSeason)
 	api.DELETE("/seasons/:seasonId", server.deleteSeason)
+	// episode
+	api.POST("/seasons/:seasonId/episodes", server.createEpisode)
+	api.GET("/seasons/:seasonId/episodes", server.listEpisodes)
+	api.GET("/episodes/:episodeId", server.getEpisode)
+	api.PUT("/episodes/:episodeId", server.updateEpisode)
+	api.DELETE("/episodes/:episodeId", server.deleteEpisode)
+	// theater
 
 	server.router = router
 	return server
