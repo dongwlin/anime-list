@@ -11,8 +11,8 @@ type Response struct {
 }
 
 type Pagination struct {
-	TotalItems  int64 `json:"total_items,omitempty"`
-	TotalPages  int64 `json:"total_pages,omitempty"`
+	TotalItems  int64 `json:"total_items"`
+	TotalPages  int64 `json:"total_pages"`
 	PerPage     int64 `json:"per_page"`
 	CurrentPage int64 `json:"current_page"`
 }

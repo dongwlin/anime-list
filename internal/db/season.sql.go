@@ -10,6 +10,19 @@ import (
 	"time"
 )
 
+const countSeason = `-- name: CountSeason :one
+SELECT COUNT(*) as total
+FROM seasons
+WHERE anime_id = ?
+`
+
+func (q *Queries) CountSeason(ctx context.Context, animeID int64) (int64, error) {
+	row := q.db.QueryRowContext(ctx, countSeason, animeID)
+	var total int64
+	err := row.Scan(&total)
+	return total, err
+}
+
 const createSeason = `-- name: CreateSeason :one
 INSERT INTO seasons (
     anime_id,
@@ -97,18 +110,20 @@ func (q *Queries) GetSeason(ctx context.Context, id int64) (Season, error) {
 
 const listSeason = `-- name: ListSeason :many
 SELECT id, anime_id, name, value, cover, released_at, description, status, created_at, updated_at FROM seasons
+WHERE anime_id = ?
 ORDER BY id
 LIMIT ?
 OFFSET ?
 `
 
 type ListSeasonParams struct {
-	Limit  int64 `json:"limit"`
-	Offset int64 `json:"offset"`
+	AnimeID int64 `json:"anime_id"`
+	Limit   int64 `json:"limit"`
+	Offset  int64 `json:"offset"`
 }
 
 func (q *Queries) ListSeason(ctx context.Context, arg ListSeasonParams) ([]Season, error) {
-	rows, err := q.db.QueryContext(ctx, listSeason, arg.Limit, arg.Offset)
+	rows, err := q.db.QueryContext(ctx, listSeason, arg.AnimeID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

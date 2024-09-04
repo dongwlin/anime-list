@@ -19,9 +19,15 @@ LIMIT 1;
 
 -- name: ListSeason :many
 SELECT * FROM seasons
+WHERE anime_id = ?
 ORDER BY id
 LIMIT ?
 OFFSET ?;
+
+-- name: CountSeason :one
+SELECT COUNT(*) as total
+FROM seasons
+WHERE anime_id = ?;
 
 -- name: UpdateSeason :one
 UPDATE seasons

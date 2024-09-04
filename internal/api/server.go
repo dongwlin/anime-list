@@ -23,12 +23,10 @@ func NewServer(store db.Store) *Server {
 	// animes
 	api.POST("/animes", server.createAnime)
 	api.GET("animes", server.listAnime)
-	api.GET("/animes/:id", server.getAnime)
-	api.PUT("/animes/:id", server.updateAnime)
-	api.DELETE("/animes/:id", server.deleteAnime)
 	api.GET("/animes/:animeId", server.getAnime)
 	api.PUT("/animes/:animeId", server.updateAnime)
 	api.DELETE("/animes/:animeId", server.deleteAnime)
+	// seasons
 	api.POST("/animes/:animeId/seasons", server.createSeason)
 	api.GET("/animes/:animeId/seasons", server.listSeason)
 	api.GET("/seasons/:seasonId", server.getSeason)
