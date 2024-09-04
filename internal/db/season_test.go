@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
-	"github.com/dongwlin/anime-list/internal/pkg/util"
+	"github.com/dongwlin/anime-list/internal/pkg/random"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -12,12 +12,12 @@ import (
 func createRandomSeason(t *testing.T, anime Anime) Season {
 	arg := CreateSeasonParams{
 		AnimeID:     anime.ID,
-		Name:        util.RandomString(6),
-		Value:       util.RandomInt64(1, 32),
-		Cover:       util.RandomString(255),
+		Name:        random.String(6),
+		Value:       random.Int64(1, 32),
+		Cover:       random.String(255),
 		ReleasedAt:  time.Now(),
-		Description: util.RandomString(16),
-		Status:      util.RandomInt64(1, 7),
+		Description: random.String(16),
+		Status:      random.Int64(1, 7),
 	}
 
 	season, err := testQueries.CreateSeason(context.Background(), arg)
@@ -89,12 +89,12 @@ func TestQueries_UpdateSeason(t *testing.T) {
 
 	arg := UpdateSeasonParams{
 		ID:          season1.ID,
-		Name:        util.RandomString(6),
-		Value:       util.RandomInt64(1, 32),
-		Cover:       util.RandomString(255),
+		Name:        random.String(6),
+		Value:       random.Int64(1, 32),
+		Cover:       random.String(255),
 		ReleasedAt:  time.Now(),
-		Description: util.RandomString(16),
-		Status:      util.RandomInt64(1, 7),
+		Description: random.String(16),
+		Status:      random.Int64(1, 7),
 	}
 
 	season2, err := testQueries.UpdateSeason(context.Background(), arg)

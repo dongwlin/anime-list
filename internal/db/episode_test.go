@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
-	"github.com/dongwlin/anime-list/internal/pkg/util"
+	"github.com/dongwlin/anime-list/internal/pkg/random"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -12,9 +12,9 @@ import (
 func createRandomEpisode(t *testing.T, season Season) Episode {
 	arg := CreateEpisodeParams{
 		SeasonID:    season.ID,
-		Name:        util.RandomString(6),
-		Value:       util.RandomInt64(1, 225),
-		Description: util.RandomString(16),
+		Name:        random.String(6),
+		Value:       random.Int64(1, 225),
+		Description: random.String(16),
 		Status:      0,
 	}
 
@@ -87,10 +87,10 @@ func TestQueries_UpdateEpisode(t *testing.T) {
 
 	arg := UpdateEpisodeParams{
 		ID:          episode1.ID,
-		Name:        util.RandomString(6),
-		Value:       util.RandomInt64(1, 255),
-		Description: util.RandomString(16),
-		Status:      util.RandomInt64(1, 7),
+		Name:        random.String(6),
+		Value:       random.Int64(1, 255),
+		Description: random.String(16),
+		Status:      random.Int64(1, 7),
 	}
 
 	episode2, err := testQueries.UpdateEpisode(context.Background(), arg)

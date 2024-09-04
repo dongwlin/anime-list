@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
-	"github.com/dongwlin/anime-list/internal/pkg/util"
+	"github.com/dongwlin/anime-list/internal/pkg/random"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -12,10 +12,10 @@ import (
 func createRandomTheater(t *testing.T, anime Anime) Theater {
 	arg := CreateTheaterParams{
 		AnimeID:     anime.ID,
-		Name:        util.RandomString(6),
-		Cover:       util.RandomString(255),
+		Name:        random.String(6),
+		Cover:       random.String(255),
 		ReleasedAt:  time.Now(),
-		Description: util.RandomString(16),
+		Description: random.String(16),
 		Status:      0,
 	}
 
@@ -86,8 +86,8 @@ func TestQueries_UpdateTheater(t *testing.T) {
 
 	arg := UpdateTheaterParams{
 		ID:         theater1.ID,
-		Name:       util.RandomString(6),
-		Cover:      util.RandomString(255),
+		Name:       random.String(6),
+		Cover:      random.String(255),
 		ReleasedAt: time.Now(),
 	}
 
