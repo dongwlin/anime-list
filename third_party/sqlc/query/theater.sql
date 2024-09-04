@@ -18,9 +18,15 @@ LIMIT 1;
 
 -- name: ListTheater :many
 SELECT * FROM theaters
+WHERE anime_id = ?
 ORDER BY id
 LIMIT ?
 OFFSET ?;
+
+-- name: CountTheater :one
+SELECT COUNT(*) as total
+FROM theaters
+WHERE anime_id = ?;
 
 -- name: UpdateTheater :one
 UPDATE theaters

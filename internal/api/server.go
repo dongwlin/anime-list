@@ -39,6 +39,11 @@ func NewServer(store db.Store) *Server {
 	api.PUT("/episodes/:episodeId", server.updateEpisode)
 	api.DELETE("/episodes/:episodeId", server.deleteEpisode)
 	// theater
+	api.POST("/animes/:animeId/theaters", server.createTheater)
+	api.GET("/animes/:animeId/theaters", server.listTheater)
+	api.GET("/theaters/:theaterId", server.getTheater)
+	api.PUT("/theaters/:theaterId", server.updateTheater)
+	api.DELETE("/theaters/:theaterId", server.deleteTheater)
 
 	server.router = router
 	return server

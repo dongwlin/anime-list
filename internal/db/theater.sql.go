@@ -10,6 +10,19 @@ import (
 	"time"
 )
 
+const countTheater = `-- name: CountTheater :one
+SELECT COUNT(*) as total
+FROM theaters
+WHERE anime_id = ?
+`
+
+func (q *Queries) CountTheater(ctx context.Context, animeID int64) (int64, error) {
+	row := q.db.QueryRowContext(ctx, countTheater, animeID)
+	var total int64
+	err := row.Scan(&total)
+	return total, err
+}
+
 const createTheater = `-- name: CreateTheater :one
 INSERT INTO theaters (
     anime_id,
@@ -92,18 +105,20 @@ func (q *Queries) GetTheater(ctx context.Context, id int64) (Theater, error) {
 
 const listTheater = `-- name: ListTheater :many
 SELECT id, anime_id, name, cover, released_at, description, status, created_at, updated_at FROM theaters
+WHERE anime_id = ?
 ORDER BY id
 LIMIT ?
 OFFSET ?
 `
 
 type ListTheaterParams struct {
-	Limit  int64 `json:"limit"`
-	Offset int64 `json:"offset"`
+	AnimeID int64 `json:"anime_id"`
+	Limit   int64 `json:"limit"`
+	Offset  int64 `json:"offset"`
 }
 
 func (q *Queries) ListTheater(ctx context.Context, arg ListTheaterParams) ([]Theater, error) {
-	rows, err := q.db.QueryContext(ctx, listTheater, arg.Limit, arg.Offset)
+	rows, err := q.db.QueryContext(ctx, listTheater, arg.AnimeID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
