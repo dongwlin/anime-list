@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/dongwlin/anime-list/internal/db"
+	"github.com/dongwlin/anime-list/internal/status"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -25,6 +26,10 @@ func (s *Server) createTheater(ctx *gin.Context) {
 	req := &createTheaterRequest{}
 	if err := ctx.ShouldBindJSON(req); err != nil {
 		ErrorResponse(ctx, http.StatusBadRequest, "Invalid params", nil)
+		return
+	}
+	if !status.Valid(req.Status) {
+		ErrorResponse(ctx, http.StatusBadRequest, "Invalid params", "Invalid status")
 		return
 	}
 
@@ -133,6 +138,10 @@ func (s *Server) updateTheater(ctx *gin.Context) {
 	req := &updateTheaterRequest{}
 	if err := ctx.ShouldBindJSON(req); err != nil {
 		ErrorResponse(ctx, http.StatusBadRequest, "Invalid params", nil)
+		return
+	}
+	if !status.Valid(req.Status) {
+		ErrorResponse(ctx, http.StatusBadRequest, "Invalid params", "Invalid status")
 		return
 	}
 
