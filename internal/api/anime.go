@@ -100,7 +100,7 @@ func (s *Server) getAnime(ctx *gin.Context) {
 }
 
 type updateAnimeRequest struct {
-	Name   string `json:"name"`
+	Name   string `json:"name" binding:"required"`
 	Desc   string `json:"desc"`
 	Status int64  `json:"status"`
 }

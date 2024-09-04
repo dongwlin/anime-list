@@ -9,7 +9,7 @@ import (
 )
 
 type createTheaterRequest struct {
-	Name        string    `json:"name"`
+	Name        string    `json:"name" binding:"required"`
 	Cover       string    `json:"cover"`
 	ReleasedAt  time.Time `json:"released_at"`
 	Description string    `json:"description"`
@@ -117,7 +117,7 @@ func (s *Server) getTheater(ctx *gin.Context) {
 }
 
 type updateTheaterRequest struct {
-	Name        string    `json:"name"`
+	Name        string    `json:"name" binding:"required"`
 	Cover       string    `json:"cover"`
 	ReleasedAt  time.Time `json:"released_at"`
 	Description string    `json:"description"`
