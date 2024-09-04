@@ -66,8 +66,9 @@ func TestQueries_ListTheater(t *testing.T) {
 	}
 
 	arg := ListTheaterParams{
-		Limit:  5,
-		Offset: 5,
+		AnimeID: anime.ID,
+		Limit:   5,
+		Offset:  5,
 	}
 
 	theaters, err := testQueries.ListTheater(context.Background(), arg)
