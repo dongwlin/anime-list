@@ -81,7 +81,7 @@ func (s *Server) listAnime(ctx *gin.Context) {
 }
 
 func (s *Server) getAnime(ctx *gin.Context) {
-	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	id, err := strconv.ParseInt(ctx.Param("animeId"), 10, 64)
 	if err != nil {
 		ErrorResponse(ctx, http.StatusBadRequest, "Invalid params", err.Error())
 		return
@@ -103,7 +103,7 @@ type updateAnimeRequest struct {
 }
 
 func (s *Server) updateAnime(ctx *gin.Context) {
-	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	id, err := strconv.ParseInt(ctx.Param("animeId"), 10, 64)
 	if err != nil {
 		ErrorResponse(ctx, http.StatusBadRequest, "Invalid params", err.Error())
 		return
@@ -131,7 +131,7 @@ func (s *Server) updateAnime(ctx *gin.Context) {
 }
 
 func (s *Server) deleteAnime(ctx *gin.Context) {
-	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	id, err := strconv.ParseInt(ctx.Param("animeId"), 10, 64)
 	if err != nil {
 		ErrorResponse(ctx, http.StatusBadRequest, "Invalid params", err.Error())
 		return
