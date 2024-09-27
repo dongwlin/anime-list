@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/dongwlin/anime-list/internal/api"
 	"github.com/spf13/cobra"
 	"os"
 
@@ -17,7 +16,7 @@ var serveCmd = &cobra.Command{
 }
 
 func serveRun(_ *cobra.Command, _ []string) {
-	server := api.NewServer()
+	server := newServer()
 
 	err := server.Run(":8000")
 	if err != nil {

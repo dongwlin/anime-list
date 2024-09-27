@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"github.com/dongwlin/anime-list/internal/store/mock"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/require"
+	"go.uber.org/mock/gomock"
 	"io"
 	"net/http/httptest"
 	"testing"
@@ -10,7 +12,11 @@ import (
 
 func TestPing(t *testing.T) {
 	app := fiber.New()
-	app.All("/ping", Ping)
+	ctrl := gomock.NewController(t)
+	mockStore := mock.NewMockStore(ctrl)
+	handler := NewHandler(mockStore)
+	pingHandler := NewPingHandler(handler)
+	app.All("/ping", pingHandler.Ping)
 	methods := []string{"GET", "POST", "PUT", "DELETE"}
 
 	for _, method := range methods {

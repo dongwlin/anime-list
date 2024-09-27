@@ -3,7 +3,7 @@
 //   sqlc v1.26.0
 // source: anime.sql
 
-package db
+package sqlc
 
 import (
 	"context"
