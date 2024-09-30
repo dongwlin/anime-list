@@ -6,12 +6,13 @@ package cmd
 import (
 	"database/sql"
 	"fmt"
+	"os"
+
+	"github.com/dongwlin/anime-list/internal/db"
+	"github.com/dongwlin/anime-list/internal/db/schema"
 	"github.com/dongwlin/anime-list/internal/handler"
 	"github.com/dongwlin/anime-list/internal/server"
-	"github.com/dongwlin/anime-list/internal/store"
-	"github.com/dongwlin/anime-list/internal/store/schema"
 	"github.com/google/wire"
-	"os"
 )
 
 var handlerSet = wire.NewSet(
@@ -40,7 +41,7 @@ func connDB() *sql.DB {
 func newServer() *server.HttpServer {
 	wire.Build(
 		connDB,
-		store.NewStore,
+		db.NewStore,
 		handlerSet,
 		server.NewHttpServer,
 	)

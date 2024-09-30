@@ -1,8 +1,9 @@
-package store
+package db
 
 import (
 	"database/sql"
-	"github.com/dongwlin/anime-list/internal/store/sqlc"
+
+	"github.com/dongwlin/anime-list/internal/db/sqlc"
 )
 
 type Store interface {

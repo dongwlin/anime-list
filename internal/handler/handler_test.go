@@ -3,7 +3,7 @@ package handler
 import (
 	"testing"
 
-	"github.com/dongwlin/anime-list/internal/store/mock"
+	"github.com/dongwlin/anime-list/internal/db/mock"
 	"go.uber.org/mock/gomock"
 )
 

@@ -13,7 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	sqlc "github.com/dongwlin/anime-list/internal/store/sqlc"
+	sqlc "github.com/dongwlin/anime-list/internal/db/sqlc"
 	gomock "go.uber.org/mock/gomock"
 )
 

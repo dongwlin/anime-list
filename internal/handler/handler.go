@@ -1,12 +1,12 @@
 package handler
 
-import "github.com/dongwlin/anime-list/internal/store"
+import "github.com/dongwlin/anime-list/internal/db"
 
 type Handler struct {
-	store store.Store
+	store db.Store
 }
 
-func NewHandler(store store.Store) *Handler {
+func NewHandler(store db.Store) *Handler {
 	return &Handler{
 		store: store,
 	}

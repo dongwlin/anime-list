@@ -8,18 +8,21 @@ package cmd
 
 import (
 	"database/sql"
+	"fmt"
+	"github.com/dongwlin/anime-list/internal/db"
+	"github.com/dongwlin/anime-list/internal/db/schema"
 	"github.com/dongwlin/anime-list/internal/handler"
 	"github.com/dongwlin/anime-list/internal/server"
-	"github.com/dongwlin/anime-list/internal/store"
 	"github.com/google/wire"
+	"os"
 )
 
 // Injectors from wire.go:
 
 func newServer() *server.HttpServer {
-	db := connDB()
-	storeStore := store.NewStore(db)
-	handlerHandler := handler.NewHandler(storeStore)
+	sqlDB := connDB()
+	store := db.NewStore(sqlDB)
+	handlerHandler := handler.NewHandler(store)
 	pingHandler := handler.NewPingHandler(handlerHandler)
 	animeHandler := handler.NewAnimeHandler(handlerHandler)
 	seasonHandler := handler.NewSeasonHandler(handlerHandler)
@@ -36,7 +39,13 @@ var handlerSet = wire.NewSet(handler.NewHandler, handler.NewPingHandler, handler
 func connDB() *sql.DB {
 	conn, err := sql.Open("sqlite3", "./data.db")
 	if err != nil {
-		panic(err)
+		fmt.Printf("sql.Open() error: %v\n", err)
+		os.Exit(1)
+	}
+	_, err = conn.Exec(schema.Schema)
+	if err != nil {
+		fmt.Printf("conn.Exec() error: %v\n", err)
+		os.Exit(1)
 	}
 	return conn
 }
