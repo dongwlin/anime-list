@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/dongwlin/anime-list/internal/handler"
+	"github.com/dongwlin/anime-list/internal/middleware"
 	"github.com/dongwlin/anime-list/internal/route"
 	"github.com/gofiber/fiber/v2"
 )
@@ -18,6 +19,7 @@ func NewHttpServer(
 	theaterHandler *handler.TheaterHandler,
 ) *HttpServer {
 	app := fiber.New()
+	middleware.Setup(app)
 	route.Setup(app, pingHandler, animeHandler, seasonHandler, episodeHandler, theaterHandler)
 	return &HttpServer{
 		app: app,
