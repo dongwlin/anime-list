@@ -25,7 +25,7 @@ FROM animes;
 
 -- name: UpdateAnime :one
 UPDATE animes
-SET name = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, description = ?, status = ?
 WHERE id = ?
 RETURNING *;
 

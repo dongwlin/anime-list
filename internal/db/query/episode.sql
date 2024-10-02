@@ -30,7 +30,7 @@ WHERE season_id = ?;
 
 -- name: UpdateEpisode :one
 UPDATE episodes
-SET name = ?, value = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, value = ?, description = ?, status = ?
 WHERE id = ?
 RETURNING *;
 

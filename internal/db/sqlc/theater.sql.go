@@ -152,7 +152,7 @@ func (q *Queries) ListTheater(ctx context.Context, arg ListTheaterParams) ([]The
 
 const updateTheater = `-- name: UpdateTheater :one
 UPDATE theaters
-SET name = ?, cover = ?, released_at = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, cover = ?, released_at = ?, description = ?, status = ?
 WHERE id = ?
 RETURNING id, anime_id, name, cover, released_at, description, status, created_at, updated_at
 `

@@ -31,7 +31,7 @@ WHERE anime_id = ?;
 
 -- name: UpdateSeason :one
 UPDATE seasons
-SET name = ?, value = ?, cover = ?, released_at = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, value = ?, cover = ?, released_at = ?, description = ?, status = ?
 WHERE id = ?
 RETURNING *;
 

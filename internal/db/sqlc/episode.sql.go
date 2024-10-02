@@ -145,7 +145,7 @@ func (q *Queries) ListEpisode(ctx context.Context, arg ListEpisodeParams) ([]Epi
 
 const updateEpisode = `-- name: UpdateEpisode :one
 UPDATE episodes
-SET name = ?, value = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, value = ?, description = ?, status = ?
 WHERE id = ?
 RETURNING id, season_id, name, value, description, status, created_at, updated_at
 `

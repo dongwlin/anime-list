@@ -126,7 +126,7 @@ func (q *Queries) ListAnime(ctx context.Context, arg ListAnimeParams) ([]Anime, 
 
 const updateAnime = `-- name: UpdateAnime :one
 UPDATE animes
-SET name = ?, description = ?, status = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+SET name = ?, description = ?, status = ?
 WHERE id = ?
 RETURNING id, name, description, status, created_at, updated_at
 `
