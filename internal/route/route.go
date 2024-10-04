@@ -24,6 +24,7 @@ func Setup(
 	// season handlers
 	api.Post("/animes/:animeId/seasons", handler.Season.Create)
 	api.Get("/animes/:animeId/seasons", handler.Season.List)
+	api.Get("/animes/:animeId/seasons/search", handler.Season.Search)
 	api.Get("/seasons/:id", handler.Season.Get)
 	api.Put("/seasons/:id", handler.Season.Update)
 	api.Delete("/seasons/:id", handler.Season.Delete)

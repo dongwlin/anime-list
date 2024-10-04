@@ -6,14 +6,6 @@ import (
 	"github.com/dongwlin/anime-list/internal/ent"
 )
 
-type SeasonOperator interface {
-	Create(ctx context.Context)
-	List(ctx context.Context)
-	Get(ctx context.Context)
-	Update(ctx context.Context)
-	Delete(ctx context.Context)
-}
-
 type EpisodeOperator interface {
 	Create(ctx context.Context)
 	List(ctx context.Context)
@@ -39,6 +31,7 @@ type Operator struct {
 
 func New(db *ent.Client) *Operator {
 	return &Operator{
-		Anime: NewAnimeOperator(db),
+		Anime:  NewAnimeOperator(db),
+		Season: NewSeasonOperator(db),
 	}
 }
