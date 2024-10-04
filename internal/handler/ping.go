@@ -3,13 +3,10 @@ package handler
 import "github.com/gofiber/fiber/v2"
 
 type PingHandler struct {
-	*Handler
 }
 
-func NewPingHandler(handler *Handler) *PingHandler {
-	return &PingHandler{
-		Handler: handler,
-	}
+func NewPingHandler() *PingHandler {
+	return &PingHandler{}
 }
 
 func (h *PingHandler) Ping(c *fiber.Ctx) error {

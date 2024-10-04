@@ -1,14 +1,17 @@
 package handler
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/dongwlin/anime-list/internal/operator"
+	"github.com/gofiber/fiber/v2"
+)
 
 type EpisodeHandler struct {
-	*Handler
+	operator operator.EpisodeOperator
 }
 
-func NewEpisodeHandler(handler *Handler) *EpisodeHandler {
+func NewEpisodeHandler(operator operator.EpisodeOperator) *EpisodeHandler {
 	return &EpisodeHandler{
-		Handler: handler,
+		operator: operator,
 	}
 }
 

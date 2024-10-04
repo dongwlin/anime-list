@@ -1,14 +1,17 @@
 package handler
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/dongwlin/anime-list/internal/operator"
+	"github.com/gofiber/fiber/v2"
+)
 
 type TheaterHandler struct {
-	*Handler
+	operator operator.TheaterOperator
 }
 
-func NewTheaterHandler(handler *Handler) *TheaterHandler {
+func NewTheaterHandler(operator operator.TheaterOperator) *TheaterHandler {
 	return &TheaterHandler{
-		Handler: handler,
+		operator: operator,
 	}
 }
 

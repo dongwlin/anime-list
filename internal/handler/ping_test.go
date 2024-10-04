@@ -11,8 +11,7 @@ import (
 
 func TestPing(t *testing.T) {
 	app := fiber.New()
-	handler := createTestHandler(t)
-	pingHandler := NewPingHandler(handler)
+	pingHandler := NewPingHandler()
 	app.All("/ping", pingHandler.Ping)
 	methods := []string{"GET", "POST", "PUT", "DELETE"}
 

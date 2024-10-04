@@ -1,7 +1,7 @@
 package status
 
 // Status represents the status of an anime in the watchlist.
-type Status int64
+type Status int
 
 // Enum values for Status using iota for auto-increment.
 const (
@@ -15,8 +15,8 @@ const (
 )
 
 // Value returns the integer value of the Status.
-func (s Status) Value() int64 {
-	return int64(s)
+func (s Status) Value() int {
+	return int(s)
 }
 
 // String returns the string representation of the Status.
@@ -40,7 +40,7 @@ func (s Status) String() string {
 }
 
 // Valid checks if a given integer value is a valid Status.
-func Valid(value int64) bool {
+func Valid(value int) bool {
 	if value < NotWatched.Value() || value >= Unknown.Value() {
 		return false
 	}

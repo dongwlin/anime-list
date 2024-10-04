@@ -1,13 +1,21 @@
 package handler
 
-import "github.com/dongwlin/anime-list/internal/db"
+import "github.com/dongwlin/anime-list/internal/operator"
 
 type Handler struct {
-	store db.Store
+	Ping    *PingHandler
+	Anime   *AnimeHandler
+	Season  *SeasonHandler
+	Episode *EpisodeHandler
+	Theater *TheaterHandler
 }
 
-func NewHandler(store db.Store) *Handler {
+func New(operator *operator.Operator) *Handler {
 	return &Handler{
-		store: store,
+		Ping:    NewPingHandler(),
+		Anime:   NewAnimeHandler(operator.Anime),
+		Season:  NewSeasonHandler(operator.Season),
+		Episode: NewEpisodeHandler(operator.Episode),
+		Theater: NewTheaterHandler(operator.Theater),
 	}
 }

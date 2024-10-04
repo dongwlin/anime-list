@@ -12,15 +12,11 @@ type HttpServer struct {
 }
 
 func NewHttpServer(
-	pingHandler *handler.PingHandler,
-	animeHandler *handler.AnimeHandler,
-	seasonHandler *handler.SeasonHandler,
-	episodeHandler *handler.EpisodeHandler,
-	theaterHandler *handler.TheaterHandler,
+	handler *handler.Handler,
 ) *HttpServer {
 	app := fiber.New()
 	middleware.Setup(app)
-	route.Setup(app, pingHandler, animeHandler, seasonHandler, episodeHandler, theaterHandler)
+	route.Setup(app, handler)
 	return &HttpServer{
 		app: app,
 	}

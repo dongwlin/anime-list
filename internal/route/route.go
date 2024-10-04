@@ -7,41 +7,38 @@ import (
 
 func Setup(
 	app *fiber.App,
-	pingHandler *handler.PingHandler,
-	animeHandler *handler.AnimeHandler,
-	seasonHandler *handler.SeasonHandler,
-	episodeHandler *handler.EpisodeHandler,
-	theaterHandler *handler.TheaterHandler,
+	handler *handler.Handler,
 ) {
-	app.All("/ping", pingHandler.Ping)
+	app.All("/ping", handler.Ping.Ping)
 
 	api := app.Group("/api")
 
 	// anime handlers
-	api.Post("/animes", animeHandler.Create)
-	api.Get("/animes", animeHandler.List)
-	api.Get("/animes/:id", animeHandler.Get)
-	api.Put("/animes/:id", animeHandler.Update)
-	api.Delete("/animes/:id", animeHandler.Delete)
+	api.Post("/animes", handler.Anime.Create)
+	api.Get("/animes", handler.Anime.List)
+	api.Get("/animes/search", handler.Anime.Search)
+	api.Get("/animes/:id", handler.Anime.Get)
+	api.Put("/animes/:id", handler.Anime.Update)
+	api.Delete("/animes/:id", handler.Anime.Delete)
 
 	// season handlers
-	api.Post("/animes/:animeId/seasons", seasonHandler.Create)
-	api.Get("/animes/:animeId/seasons", seasonHandler.List)
-	api.Get("/seasons/:id", seasonHandler.Get)
-	api.Put("/seasons/:id", seasonHandler.Update)
-	api.Delete("/seasons/:id", seasonHandler.Delete)
+	api.Post("/animes/:animeId/seasons", handler.Season.Create)
+	api.Get("/animes/:animeId/seasons", handler.Season.List)
+	api.Get("/seasons/:id", handler.Season.Get)
+	api.Put("/seasons/:id", handler.Season.Update)
+	api.Delete("/seasons/:id", handler.Season.Delete)
 
 	// episode handlers
-	api.Post("/seasons/:seasonId/episodes", episodeHandler.Create)
-	api.Get("/seasons/:seasonId/episodes", episodeHandler.List)
-	api.Get("/episodes/:id", episodeHandler.Get)
-	api.Put("/episodes/:id", episodeHandler.Update)
-	api.Delete("/episodes/:id", episodeHandler.Delete)
+	api.Post("/seasons/:seasonId/episodes", handler.Episode.Create)
+	api.Get("/seasons/:seasonId/episodes", handler.Episode.List)
+	api.Get("/episodes/:id", handler.Episode.Get)
+	api.Put("/episodes/:id", handler.Episode.Update)
+	api.Delete("/episodes/:id", handler.Episode.Delete)
 
 	// theater handlers
-	api.Post("/animes/:animeId/theaters", theaterHandler.Create)
-	api.Get("/animes/:animeId/theaters", theaterHandler.List)
-	api.Get("/theaters/:id", theaterHandler.Get)
-	api.Put("/theaters/:id", theaterHandler.Update)
-	api.Delete("/theaters/:id", theaterHandler.Delete)
+	api.Post("/animes/:animeId/theaters", handler.Theater.Create)
+	api.Get("/animes/:animeId/theaters", handler.Theater.List)
+	api.Get("/theaters/:id", handler.Theater.Get)
+	api.Put("/theaters/:id", handler.Theater.Update)
+	api.Delete("/theaters/:id", handler.Theater.Delete)
 }
