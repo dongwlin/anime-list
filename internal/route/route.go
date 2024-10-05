@@ -40,6 +40,7 @@ func Setup(
 	// theater handlers
 	api.Post("/animes/:animeId/theaters", handler.Theater.Create)
 	api.Get("/animes/:animeId/theaters", handler.Theater.List)
+	api.Get("/animes/:animeId/theaters/search", handler.Theater.Search)
 	api.Get("/theaters/:id", handler.Theater.Get)
 	api.Put("/theaters/:id", handler.Theater.Update)
 	api.Delete("/theaters/:id", handler.Theater.Delete)

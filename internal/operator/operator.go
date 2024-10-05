@@ -1,18 +1,8 @@
 package operator
 
 import (
-	"context"
-
 	"github.com/dongwlin/anime-list/internal/ent"
 )
-
-type TheaterOperator interface {
-	Create(ctx context.Context)
-	List(ctx context.Context)
-	Get(ctx context.Context)
-	Update(ctx context.Context)
-	Delete(ctx context.Context)
-}
 
 type Operator struct {
 	Anime   AnimeOperator
@@ -26,5 +16,6 @@ func New(db *ent.Client) *Operator {
 		Anime:   NewAnimeOperator(db),
 		Season:  NewSeasonOperator(db),
 		Episode: NewEpisodeOperator(db),
+		Theater: NewTheaterOperator(db),
 	}
 }
