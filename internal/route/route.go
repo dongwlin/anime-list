@@ -32,6 +32,7 @@ func Setup(
 	// episode handlers
 	api.Post("/seasons/:seasonId/episodes", handler.Episode.Create)
 	api.Get("/seasons/:seasonId/episodes", handler.Episode.List)
+	api.Get("/seasons/:seasonId/episodes/search", handler.Episode.Search)
 	api.Get("/episodes/:id", handler.Episode.Get)
 	api.Put("/episodes/:id", handler.Episode.Update)
 	api.Delete("/episodes/:id", handler.Episode.Delete)
