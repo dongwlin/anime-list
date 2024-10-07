@@ -2,6 +2,9 @@ package operator
 
 import (
 	"context"
+	"github.com/dongwlin/anime-list/internal/ent/episode"
+	"github.com/dongwlin/anime-list/internal/ent/season"
+	"github.com/dongwlin/anime-list/internal/ent/theater"
 
 	"github.com/dongwlin/anime-list/internal/ent"
 	"github.com/dongwlin/anime-list/internal/ent/anime"
@@ -119,9 +122,57 @@ func (ao *animeOperator) Update(ctx context.Context, params UpdateAnimeParams) (
 
 // Delete implements AnimeOperator.
 func (ao *animeOperator) Delete(ctx context.Context, id int) error {
-	return ao.db.Anime.
+	tx, err := ao.db.Tx(ctx)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			tx.Rollback()
+		}
+	}()
+
+	_, err = tx.Theater.
+		Delete().
+		Where(theater.HasAnimeWith(anime.ID(id))).
+		Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	seasons, err := tx.Season.
+		Query().
+		Where(season.HasAnimeWith(anime.ID(id))).
+		All(ctx)
+	if err != nil {
+		return err
+	}
+
+	for _, s := range seasons {
+		_, err = tx.Episode.
+			Delete().
+			Where(episode.HasSeasonWith(season.ID(s.ID))).
+			Exec(ctx)
+		if err != nil {
+			return err
+		}
+
+		err = tx.Season.
+			DeleteOneID(s.ID).
+			Exec(ctx)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = tx.Anime.
 		DeleteOneID(id).
 		Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	return tx.Commit()
 }
 
 func NewAnimeOperator(db *ent.Client) AnimeOperator {

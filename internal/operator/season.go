@@ -2,6 +2,7 @@ package operator
 
 import (
 	"context"
+	"github.com/dongwlin/anime-list/internal/ent/episode"
 	"time"
 
 	"github.com/dongwlin/anime-list/internal/ent"
@@ -146,10 +147,32 @@ func (so *seasonOperator) Update(ctx context.Context, params UpdateSeasonParams)
 
 // Delete implements SeasonOperator.
 func (so *seasonOperator) Delete(ctx context.Context, id int) error {
-	err := so.db.Season.
+	tx, err := so.db.Tx(ctx)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			tx.Rollback()
+		}
+	}()
+
+	_, err = tx.Episode.
+		Delete().
+		Where(episode.HasSeasonWith(season.ID(id))).
+		Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Season.
 		DeleteOneID(id).
 		Exec(ctx)
-	return err
+	if err != nil {
+		return err
+	}
+
+	return tx.Commit()
 }
 
 func NewSeasonOperator(db *ent.Client) SeasonOperator {
