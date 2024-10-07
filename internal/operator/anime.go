@@ -59,20 +59,17 @@ func (ao *animeOperator) Create(ctx context.Context, params CreateAnimeParams) (
 
 // List implements AnimeOperator.
 func (ao *animeOperator) List(ctx context.Context, params ListAnimeParams) (int, []*ent.Anime, error) {
-	count, err := ao.db.Anime.
-		Query().
-		Count(ctx)
+	query := ao.db.Anime.Query()
 
+	count, err := query.Count(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
 
-	animes, err := ao.db.Anime.
-		Query().
+	animes, err := query.
 		Offset(params.Offset).
 		Limit(params.Limit).
 		All(ctx)
-
 	if err != nil {
 		return 0, nil, err
 	}
@@ -81,17 +78,15 @@ func (ao *animeOperator) List(ctx context.Context, params ListAnimeParams) (int,
 }
 
 func (ao *animeOperator) Search(ctx context.Context, params SearchAnimeParams) (int, []*ent.Anime, error) {
-	count, err := ao.db.Anime.
-		Query().
-		Where(anime.NameContains(params.Query)).
-		Count(ctx)
+	query := ao.db.Anime.Query().
+		Where(anime.NameContains(params.Query))
+
+	count, err := query.Count(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
 
-	animes, err := ao.db.Anime.
-		Query().
-		Where(anime.NameContains(params.Query)).
+	animes, err := query.
 		Offset(params.Offset).
 		Limit(params.Limit).
 		All(ctx)
