@@ -46,12 +46,12 @@ type animeOperator struct {
 
 // Create implements AnimeOperator.
 func (ao *animeOperator) Create(ctx context.Context, params CreateAnimeParams) (*ent.Anime, error) {
-	anime, err := ao.db.Anime.Create().
+	a, err := ao.db.Anime.Create().
 		SetName(params.Name).
 		SetDescription(params.Description).
 		SetStatus(params.Status).
 		Save(ctx)
-	return anime, err
+	return a, err
 }
 
 // List implements AnimeOperator.
@@ -101,20 +101,20 @@ func (ao *animeOperator) Search(ctx context.Context, params SearchAnimeParams) (
 
 // Get implements AnimeOperator.
 func (ao *animeOperator) Get(ctx context.Context, id int) (*ent.Anime, error) {
-	anime, err := ao.db.Anime.
+	a, err := ao.db.Anime.
 		Get(ctx, id)
-	return anime, err
+	return a, err
 }
 
 // Update implements AnimeOperator.
 func (ao *animeOperator) Update(ctx context.Context, params UpdateAnimeParams) (*ent.Anime, error) {
-	anime, err := ao.db.Anime.
+	a, err := ao.db.Anime.
 		UpdateOneID(params.ID).
 		SetName(params.Name).
 		SetDescription(params.Description).
 		SetStatus(params.Status).
 		Save(ctx)
-	return anime, err
+	return a, err
 }
 
 // Delete implements AnimeOperator.
