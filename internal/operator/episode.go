@@ -66,49 +66,45 @@ func (eo *episodeOperator) Create(ctx context.Context, params CreateEpisodeParam
 
 // List implements EpisodeOperator.
 func (eo *episodeOperator) List(ctx context.Context, params ListEpisodeParams) (int, []*ent.Episode, error) {
-	count, err := eo.db.Season.
-		Query().
-		Where(season.ID(params.SeasonID)).
-		QueryEpisodes().
-		Count(ctx)
+	query := eo.db.Episode.Query().
+		Where(episode.HasSeasonWith(season.ID(params.SeasonID)))
+
+	count, err := query.Count(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
-	episodes, err := eo.db.Season.
-		Query().
-		Where(season.ID(params.SeasonID)).
-		QueryEpisodes().
+
+	episodes, err := query.
 		Offset(params.Offset).
 		Limit(params.Limit).
 		All(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
+
 	return count, episodes, nil
 }
 
 // Search implements EpisodeOperator.
 func (eo *episodeOperator) Search(ctx context.Context, params SearchEpisodeParams) (int, []*ent.Episode, error) {
-	count, err := eo.db.Season.
-		Query().
-		Where(season.ID(params.SeasonID)).
-		QueryEpisodes().
-		Where(episode.NameContains(params.Query)).
+	query := eo.db.Episode.Query().
+		Where(episode.HasSeasonWith(season.ID(params.SeasonID))).
+		Where(episode.NameContains(params.Query))
+
+	count, err := query.
 		Count(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
-	episodes, err := eo.db.Season.
-		Query().
-		Where(season.ID(params.SeasonID)).
-		QueryEpisodes().
-		Where(episode.NameContains(params.Query)).
+
+	episodes, err := query.
 		Offset(params.Offset).
 		Limit(params.Limit).
 		All(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
+
 	return count, episodes, nil
 }
 

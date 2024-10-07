@@ -69,49 +69,45 @@ func (to *theaterOperator) Create(ctx context.Context, params CreateTheaterParam
 
 // List implements TheaterOperator.
 func (to *theaterOperator) List(ctx context.Context, params ListTheaterParams) (int, []*ent.Theater, error) {
-	count, err := to.db.Anime.
+	query := to.db.Theater.
 		Query().
-		Where(anime.ID(params.AnimeID)).
-		QueryTheaters().
-		Count(ctx)
+		Where(theater.HasAnimeWith(anime.ID(params.AnimeID)))
+
+	count, err := query.Count(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
-	theaters, err := to.db.Anime.
-		Query().
-		Where(anime.ID(params.AnimeID)).
-		QueryTheaters().
+
+	theaters, err := query.
 		Offset(params.Offset).
 		Limit(params.Limit).
 		All(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
+
 	return count, theaters, nil
 }
 
 // Search implements TheaterOperator.
 func (to *theaterOperator) Search(ctx context.Context, params SearchTheaterParams) (int, []*ent.Theater, error) {
-	count, err := to.db.Anime.
-		Query().
-		Where(anime.ID(params.AnimeID)).
-		QueryTheaters().
-		Where(theater.NameContains(params.Query)).
-		Count(ctx)
+	query := to.db.Theater.Query().
+		Where(theater.HasAnimeWith(anime.ID(params.AnimeID))).
+		Where(theater.NameContains(params.Query))
+
+	count, err := query.Count(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
-	theaters, err := to.db.Anime.
-		Query().
-		Where(anime.ID(params.AnimeID)).
-		QueryTheaters().
-		Where(theater.NameContains(params.Query)).
+
+	theaters, err := query.
 		Offset(params.Offset).
 		Limit(params.Limit).
 		All(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
+
 	return count, theaters, nil
 }
 

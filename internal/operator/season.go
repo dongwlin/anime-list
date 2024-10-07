@@ -73,19 +73,15 @@ func (so *seasonOperator) Create(ctx context.Context, params CreateSeasonParams)
 
 // List implements SeasonOperator.
 func (so *seasonOperator) List(ctx context.Context, params ListSeasonParams) (int, []*ent.Season, error) {
-	count, err := so.db.Anime.
-		Query().
-		Where(anime.ID(params.AnimeID)).
-		QuerySeasons().
-		Count(ctx)
+	query := so.db.Season.Query().
+		Where(season.HasAnimeWith(anime.ID(params.AnimeID)))
+
+	count, err := query.Count(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
 
-	seasons, err := so.db.Anime.
-		Query().
-		Where(anime.ID(params.AnimeID)).
-		QuerySeasons().
+	seasons, err := query.
 		Offset(params.Offset).
 		Limit(params.Limit).
 		All(ctx)
@@ -98,21 +94,16 @@ func (so *seasonOperator) List(ctx context.Context, params ListSeasonParams) (in
 
 // Search implements SeasonOperator.
 func (so *seasonOperator) Search(ctx context.Context, params SearchSeasonParams) (int, []*ent.Season, error) {
-	count, err := so.db.Anime.
-		Query().
-		Where(anime.ID(params.AnimeID)).
-		QuerySeasons().
-		Where(season.NameContains(params.Query)).
-		Count(ctx)
+	query := so.db.Season.Query().
+		Where(season.HasAnimeWith(anime.ID(params.AnimeID))).
+		Where(season.NameContains(params.Query))
+
+	count, err := query.Count(ctx)
 	if err != nil {
 		return 0, nil, err
 	}
 
-	seasons, err := so.db.Anime.
-		Query().
-		Where(anime.ID(params.AnimeID)).
-		QuerySeasons().
-		Where(season.NameContains(params.Query)).
+	seasons, err := query.
 		Offset(params.Offset).
 		Limit(params.Limit).
 		All(ctx)
